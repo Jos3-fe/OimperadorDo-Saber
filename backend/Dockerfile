@@ -25,4 +25,4 @@ RUN ./mvnw clean package -DskipTests
 EXPOSE 8080
 
 # Comando para executar a aplicação
-CMD ["java", "-jar", "target/*.jar"]
+CMD ["java", "-jar", "target/marketing-api-0.0.1-SNAPSHOT.jar"]
