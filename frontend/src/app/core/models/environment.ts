@@ -1,4 +1,4 @@
 export const environment = {
-    production: false,
+    production: true,
     apiUrl: 'https://oimperadordo-saber-3.onrender.com' // URL do seu backend
   };
