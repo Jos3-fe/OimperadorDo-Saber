@@ -18,6 +18,13 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/escola-marketing-frontend",
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              }
+            ],
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
