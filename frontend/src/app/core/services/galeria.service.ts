@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { GaleriaDTO } from '../models/GaleriaDTO';
+import { environment } from '../models/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GaleriaService {
-  private apiUrl = 'http://localhost:8080/api/galeria';
+  
 
   constructor(private authService: AuthService, private http: HttpClient) { }
 
@@ -30,22 +31,22 @@ export class GaleriaService {
       sortDir
     };
     
-    return this.http.get<any>(`${this.apiUrl}/paginated`, { params });
+    return this.http.get<any>(`${environment.apiUrl}/paginated`, { params });
   }
 
   // Público - Buscar por ID
   getGaleriaById(id: number): Observable<GaleriaDTO> {
-    return this.http.get<GaleriaDTO>(`${this.apiUrl}/${id}`);
+    return this.http.get<GaleriaDTO>(`${environment.apiUrl}/${id}`);
   }
 
   // Público - Buscar por slug
   getGaleriaBySlug(slug: string): Observable<GaleriaDTO> {
-    return this.http.get<GaleriaDTO>(`${this.apiUrl}/slug/${slug}`);
+    return this.http.get<GaleriaDTO>(`${environment.apiUrl}/slug/${slug}`);
   }
 
   // Público - Buscar por ano letivo
   getGaleriasByAno(anoLetivo: string): Observable<GaleriaDTO[]> {
-    return this.http.get<GaleriaDTO[]>(`${this.apiUrl}/ano/${anoLetivo}`);
+    return this.http.get<GaleriaDTO[]>(`${environment.apiUrl}/ano/${anoLetivo}`);
   }
 
   // Público - Buscar por ano letivo paginado
@@ -59,12 +60,12 @@ export class GaleriaService {
       size: size.toString()
     };
     
-    return this.http.get<any>(`${this.apiUrl}/ano/${anoLetivo}/paginated`, { params });
+    return this.http.get<any>(`${environment.apiUrl}/ano/${anoLetivo}/paginated`, { params });
   }
 
   // Público - Buscar por tag
   getGaleriasByTag(tag: string): Observable<GaleriaDTO[]> {
-    return this.http.get<GaleriaDTO[]>(`${this.apiUrl}/tag/${tag}`);
+    return this.http.get<GaleriaDTO[]>(`${environment.apiUrl}/tag/${tag}`);
   }
 
   // Público - Buscar por título
@@ -75,17 +76,17 @@ export class GaleriaService {
       size: size.toString()
     };
     
-    return this.http.get<any>(`${this.apiUrl}/search`, { params });
+    return this.http.get<any>(`${environment.apiUrl}/search`, { params });
   }
 
   // Público - Obter anos letivos disponíveis
   getAnosLetivos(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/anos-letivos`);
+    return this.http.get<string[]>(`${environment.apiUrl}/anos-letivos`);
   }
 
   // Público - Obter tags disponíveis
   getTags(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/tags`);
+    return this.http.get<string[]>(`${environment.apiUrl}/tags`);
   }
 
   // Admin - Criar galeria com múltiplas imagens
@@ -113,7 +114,7 @@ export class GaleriaService {
       });
     }
 
-    return this.http.post<GaleriaDTO>(`${this.apiUrl}/admin`, formData, {
+    return this.http.post<GaleriaDTO>(`${environment.apiUrl}/admin`, formData, {
       headers: this.getAuthHeaders()
     });
   }
@@ -150,14 +151,14 @@ export class GaleriaService {
       formData.append('imagensRemover', imagensRemover.join(','));
     }
 
-    return this.http.put<GaleriaDTO>(`${this.apiUrl}/admin/${id}`, formData, {
+    return this.http.put<GaleriaDTO>(`${environment.apiUrl}/admin/${id}`, formData, {
       headers: this.getAuthHeaders()
     });
   }
 
   // Admin - Deletar galeria
   deleteGaleria(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/admin/${id}`, {
+    return this.http.delete<void>(`${environment.apiUrl}/admin/${id}`, {
       headers: this.getAuthHeaders()
     });
   }
@@ -169,7 +170,7 @@ export class GaleriaService {
       formData.append('imagens', imagem);
     });
 
-    return this.http.post<string[]>(`${this.apiUrl}/admin/upload-images`, formData, {
+    return this.http.post<string[]>(`${environment.apiUrl}/admin/upload-images`, formData, {
       headers: this.getAuthHeaders()
     });
   }

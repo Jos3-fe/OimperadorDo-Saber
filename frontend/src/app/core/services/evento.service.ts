@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { EventoDTO } from '../models/EventoDTO';
+import { environment } from '../models/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventoService {
-  private apiUrl = 'http://localhost:8080/api/eventos';
+  
 
   constructor(private authService: AuthService, private http: HttpClient) { }
 
@@ -30,17 +31,17 @@ export class EventoService {
       sortDir
     };
     
-    return this.http.get<any>(`${this.apiUrl}/paginated`, { params });
+    return this.http.get<any>(`${environment.apiUrl}/paginated`, { params });
   }
 
   // Público - Buscar por ID
   getEventoById(id: number): Observable<EventoDTO> {
-    return this.http.get<EventoDTO>(`${this.apiUrl}/${id}`);
+    return this.http.get<EventoDTO>(`${environment.apiUrl}/${id}`);
   }
 
   // Admin - Listar todos
   getAllEventosAdmin(): Observable<EventoDTO[]> {
-    return this.http.get<EventoDTO[]>(`${this.apiUrl}/admin/all`, {
+    return this.http.get<EventoDTO[]>(`${environment.apiUrl}/admin/all`, {
       headers: this.getAuthHeaders()
     });
   }
@@ -66,7 +67,7 @@ export class EventoService {
     formData.append('preco', preco.toString());
     if (imagem) formData.append('imagem', imagem);
 
-    return this.http.post<EventoDTO>(`${this.apiUrl}/admin`, formData, {
+    return this.http.post<EventoDTO>(`${environment.apiUrl}/admin`, formData, {
       headers: this.getAuthHeaders()
     });
   }
@@ -95,14 +96,14 @@ export class EventoService {
     if (imagem) formData.append('imagem', imagem);
     formData.append('manterImagem', manterImagem.toString());
 
-    return this.http.put<EventoDTO>(`${this.apiUrl}/admin/${id}`, formData, {
+    return this.http.put<EventoDTO>(`${environment.apiUrl}/admin/${id}`, formData, {
       headers: this.getAuthHeaders()
     });
   }
 
   // Admin - Deletar evento
   deleteEvento(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/admin/${id}`, {
+    return this.http.delete<void>(`${environment.apiUrl}/admin/${id}`, {
       headers: this.getAuthHeaders()
     });
   }
@@ -112,7 +113,7 @@ export class EventoService {
     const formData = new FormData();
     formData.append('imagem', imagem);
 
-    return this.http.post<string>(`${this.apiUrl}/admin/upload-image`, formData, {
+    return this.http.post<string>(`${environment.apiUrl}/admin/upload-image`, formData, {
       headers: this.getAuthHeaders()
     });
   }

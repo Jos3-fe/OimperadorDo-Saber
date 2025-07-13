@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Mensagem } from '../models/mensagem';
 import { AuthService } from './auth.service';
+import { environment } from '../models/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MensagemService {
   
-  private apiUrl = 'http://localhost:8080/api';
+  
   
   constructor(private authService: AuthService, private http: HttpClient) { }
   
@@ -28,18 +29,18 @@ export class MensagemService {
       params = params.set('search', searchTerm.trim());
     }
     
-    return this.http.get<any>(`${this.apiUrl}/admin/mensagens/paginated`, {
+    return this.http.get<any>(`${environment.apiUrl}/admin/mensagens/paginated`, {
       params,
       headers: this.getAuthHeaders()
     });
   }
   
   enviarMensagem(mensagem: Mensagem): Observable<Mensagem> {
-    return this.http.post<Mensagem>(`${this.apiUrl}/contato`, mensagem);
+    return this.http.post<Mensagem>(`${environment.apiUrl}/contato`, mensagem);
   }
   
   responderMensagem(id: number, resposta: string, adminId: number): Observable<Mensagem> {
-    return this.http.put<Mensagem>(`${this.apiUrl}/admin/mensagens/${id}/responder`, { 
+    return this.http.put<Mensagem>(`${environment.apiUrl}/admin/mensagens/${id}/responder`, { 
       resposta,
       adminId 
     }, {
@@ -52,13 +53,13 @@ export class MensagemService {
   }*/
   
   arquivarMensagem(id: number): Observable<void> {
-    return this.http.patch<void>(`${this.apiUrl}/admin/mensagens/${id}/arquivar`, {}, {
+    return this.http.patch<void>(`${environment.apiUrl}/admin/mensagens/${id}/arquivar`, {}, {
       headers: this.getAuthHeaders()
     });
   }
   
   deletarMensagem(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/admin/mensagens/${id}`, {
+    return this.http.delete<void>(`${environment.apiUrl}/admin/mensagens/${id}`, {
       headers: this.getAuthHeaders()
     });
   }

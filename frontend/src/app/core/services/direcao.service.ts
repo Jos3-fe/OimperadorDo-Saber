@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { DirecaoDTO } from '../models/direcao';
+import { environment } from '../models/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DirecaoService {
-  private apiUrl = 'http://localhost:8080/api/direcao';
+  
 
   constructor(private authService: AuthService, private http: HttpClient) { }
 
@@ -18,18 +19,18 @@ export class DirecaoService {
 
   // Público - Listar todos
    getTodosDirecao(): Observable<DirecaoDTO[]> {
-    return this.http.get<DirecaoDTO[]>(this.apiUrl);
+    return this.http.get<DirecaoDTO[]>(environment.apiUrl);
   }
 
   getAllDirecao(): Observable<DirecaoDTO[]> {
-    return this.http.get<DirecaoDTO[]>(this.apiUrl, {
+    return this.http.get<DirecaoDTO[]>(environment.apiUrl, {
         headers: this.getAuthHeaders()
       });
   }
 
   // Público - Buscar por ID
   getDirecaoById(id: number): Observable<DirecaoDTO> {
-    return this.http.get<DirecaoDTO>(`${this.apiUrl}/${id}`, {
+    return this.http.get<DirecaoDTO>(`${environment.apiUrl}/${id}`, {
         headers: this.getAuthHeaders()
       });
   }
@@ -47,7 +48,7 @@ export class DirecaoService {
     if (detalhes) formData.append('detalhes', detalhes);
     if (imagem) formData.append('imagem', imagem);
 
-    return this.http.post<DirecaoDTO>(`${this.apiUrl}/admin`, formData, {
+    return this.http.post<DirecaoDTO>(`${environment.apiUrl}/admin`, formData, {
       headers: this.getAuthHeaders()
     });
   }
@@ -68,14 +69,14 @@ export class DirecaoService {
     if (imagem) formData.append('imagem', imagem);
     formData.append('manterImagem', manterImagem.toString());
 
-    return this.http.put<DirecaoDTO>(`${this.apiUrl}/admin/${id}`, formData, {
+    return this.http.put<DirecaoDTO>(`${environment.apiUrl}/admin/${id}`, formData, {
       headers: this.getAuthHeaders()
     });
   }
 
   // Admin - Deletar membro
   deleteDirecao(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/admin/${id}`, {
+    return this.http.delete<void>(`${environment.apiUrl}/admin/${id}`, {
       headers: this.getAuthHeaders()
     });
   }
@@ -85,7 +86,7 @@ export class DirecaoService {
     const formData = new FormData();
     formData.append('imagem', imagem);
 
-    return this.http.post<string>(`${this.apiUrl}/admin/upload-image`, formData, {
+    return this.http.post<string>(`${environment.apiUrl}/admin/upload-image`, formData, {
       headers: this.getAuthHeaders()
     });
   }

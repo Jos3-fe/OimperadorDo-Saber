@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { NoticiaDTO } from '../models/noticia'; // Certifique-se que este caminho está correto
+import { environment } from '../models/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NoticiaService {
-  private apiUrl = 'http://localhost:8080/api/noticias';
+  
 
   constructor(private authService: AuthService, private http: HttpClient) { }
 
@@ -33,7 +34,7 @@ export class NoticiaService {
       sortDir
     };
     
-    return this.http.get<any>(`${this.apiUrl}/paginated`, { params });
+    return this.http.get<any>(`${environment.apiUrl}/paginated`, { params });
   }
    
   /**
@@ -43,7 +44,7 @@ export class NoticiaService {
    * @returns Um Observable com os detalhes da notícia.
    */
   getNoticiaById(id: number): Observable<NoticiaDTO> {
-    return this.http.get<NoticiaDTO>(`${this.apiUrl}/${id}`);
+    return this.http.get<NoticiaDTO>(`${environment.apiUrl}/${id}`);
   }
 
   /**
@@ -69,7 +70,7 @@ export class NoticiaService {
     const headers = this.getAuthHeaders()
       .set('admin-id', adminId.toString()); // Certifique-se de que o backend usa este header
 
-    return this.http.post<NoticiaDTO>(`${this.apiUrl}/admin`, formData, { headers });
+    return this.http.post<NoticiaDTO>(`${environment.apiUrl}/admin`, formData, { headers });
   }
 
   /**
@@ -95,7 +96,7 @@ export class NoticiaService {
     if (imagem) formData.append('imagem', imagem);
     formData.append('manterImagem', manterImagem.toString());
 
-    return this.http.put<NoticiaDTO>(`${this.apiUrl}/admin/${id}`, formData, {
+    return this.http.put<NoticiaDTO>(`${environment.apiUrl}/admin/${id}`, formData, {
       headers: this.getAuthHeaders()
     });
   }
@@ -107,7 +108,7 @@ export class NoticiaService {
    * @returns Um Observable vazio.
    */
   deleteNoticia(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/admin/${id}`, {
+    return this.http.delete<void>(`${environment.apiUrl}/admin/${id}`, {
       headers: this.getAuthHeaders()
     });
   }
@@ -122,7 +123,7 @@ export class NoticiaService {
     const formData = new FormData();
     formData.append('imagem', imagem);
 
-    return this.http.post<string>(`${this.apiUrl}/admin/upload-image`, formData, {
+    return this.http.post<string>(`${environment.apiUrl}/admin/upload-image`, formData, {
       headers: this.getAuthHeaders()
     });
   }

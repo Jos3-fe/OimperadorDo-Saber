@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of } from 'rxjs';
 import { Curso } from '../models/curso';
 import { AuthService } from './auth.service';
+import { environment } from '../models/environment';
 
 
 
@@ -24,14 +25,14 @@ export interface CursoPorCategoria {
   providedIn: 'root'
 })
 export class CursoService {
-  private apiUrl = 'http://localhost:8080/api/cursos';
+  
 
   constructor(private authService: AuthService, private http: HttpClient) { }
 
   
   // Buscar todos os cursos sem paginação para exibição pública
   getCursos(): Observable<Curso[]> {
-    return this.http.get<Curso[]>(`${this.apiUrl}`);
+    return this.http.get<Curso[]>(`${environment.apiUrl}`);
   }
 
   private getAuthHeaders(): HttpHeaders {
@@ -43,44 +44,44 @@ export class CursoService {
       .set('page', page.toString())
       .set('size', size.toString());
     
-    return this.http.get<any>(`${this.apiUrl}/paginated`, { 
+    return this.http.get<any>(`${environment.apiUrl}/paginated`, { 
       params
     });
   }
 
   // Buscar curso para admin (com mais detalhes)
   getCursoAdmin(id: number): Observable<Curso> {
-    return this.http.get<Curso>(`${this.apiUrl}/admin/${id}`, {
+    return this.http.get<Curso>(`${environment.apiUrl}/admin/${id}`, {
       headers: this.getAuthHeaders()
     });
   }
 
   getCurso(id: number): Observable<Curso> {
-    return this.http.get<Curso>(`${this.apiUrl}/${id}`, {
+    return this.http.get<Curso>(`${environment.apiUrl}/${id}`, {
       headers: this.getAuthHeaders()
     });
   }
 
   createCurso(curso: Curso): Observable<Curso> {
-    return this.http.post<Curso>(`${this.apiUrl}/admin`, curso, {
+    return this.http.post<Curso>(`${environment.apiUrl}/admin`, curso, {
       headers: this.getAuthHeaders()
     });
   }
 
   updateCurso(id: number, curso: Curso): Observable<Curso> {
-    return this.http.put<Curso>(`${this.apiUrl}/admin/${id}`, curso, {
+    return this.http.put<Curso>(`${environment.apiUrl}/admin/${id}`, curso, {
       headers: this.getAuthHeaders()
     });
   }
 
   deleteCurso(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/admin/${id}`, {
+    return this.http.delete<void>(`${environment.apiUrl}/admin/${id}`, {
       headers: this.getAuthHeaders()
     });
   }
 
   getCategorias(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/categorias`, {
+    return this.http.get<string[]>(`${environment.apiUrl}/categorias`, {
       headers: this.getAuthHeaders()
     });
   }
@@ -88,7 +89,7 @@ export class CursoService {
 
   // Buscar cursos em destaque
   getCursosDestaque(): Observable<Curso[]> {
-    return this.http.get<Curso[]>(`${this.apiUrl}/destaque`);
+    return this.http.get<Curso[]>(`${environment.apiUrl}/destaque`);
   }
 
   // Buscar cursos por preço
@@ -101,12 +102,12 @@ export class CursoService {
       params = params.set('precoMax', precoMax.toString());
     }
 
-    return this.http.get<Curso[]>(`${this.apiUrl}/por-preco`, { params });
+    return this.http.get<Curso[]>(`${environment.apiUrl}/por-preco`, { params });
   }
 
   // Buscar cursos por categoria
   getCursosPorCategoria(): Observable<CursoPorCategoria[]> {
-    return this.http.get<CursoPorCategoria[]>(`${this.apiUrl}/por-categoria`);
+    return this.http.get<CursoPorCategoria[]>(`${environment.apiUrl}/por-categoria`);
   }
 
 
@@ -136,7 +137,7 @@ buscarCursosPorCategoriaCategoria(categoria: string): Observable<Curso[]> {
   // Converte a categoria para o formato esperado pelo backend
   const categoriaBackend = this.converterCategoriaParaBackend(categoria);
   
-  return this.http.get<Curso[]>(`${this.apiUrl}/categoria/${categoriaBackend}`).pipe(
+  return this.http.get<Curso[]>(`${environment.apiUrl}/categoria/${categoriaBackend}`).pipe(
     catchError(error => {
       console.error(`Erro ao buscar cursos da categoria ${categoria}:`, error);
       return of([]);

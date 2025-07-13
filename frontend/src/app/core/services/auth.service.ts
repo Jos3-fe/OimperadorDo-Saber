@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
 import { LoginRequest, LoginResponse } from '../models/auth';
+import { environment } from '../models/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,6 @@ export class AuthService {
 
   private jwtHelper = new JwtHelperService();
 
-  private apiUrl = 'http://localhost:8080/api';
   private currentAdminSubject: BehaviorSubject<Admin | null>;
   public currentAdmin$: Observable<Admin | null>;
 
@@ -32,7 +32,6 @@ export class AuthService {
     this.currentAdmin$ = this.currentAdminSubject.asObservable();
   }
   
-
   getUserRole(): string {
     // Verifica se está no navegador
     if (isPlatformBrowser(this.platformId)) {
@@ -66,7 +65,7 @@ export class AuthService {
 
   // auth.service.ts
 login(credentials: LoginRequest): Observable<LoginResponse> {
-  return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, credentials).pipe(
+  return this.http.post<LoginResponse>(`${environment.apiUrl}/auth/login`, credentials).pipe(
     tap((response) => {
       console.log('Resposta completa:', response); // Debug importante
       
