@@ -5,9 +5,9 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copiar arquivos do Maven
-COPY mvnw .
-COPY .mvn .mvn
-COPY pom.xml .
+COPY backend/mvnw .
+COPY backend/.mvn .mvn
+COPY backend/pom.xml .
 
 # Dar permissão de execução ao mvnw
 RUN chmod +x ./mvnw
@@ -16,7 +16,7 @@ RUN chmod +x ./mvnw
 RUN ./mvnw dependency:go-offline -B
 
 # Copiar código fonte
-COPY src src
+COPY backend/src src
 
 # Compilar aplicação
 RUN ./mvnw clean package -DskipTests
