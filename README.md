@@ -1,7 +1,7 @@
 # Projeto Escola
 
-Sistema de gestão escolar com Angular + Spring Boot
-
+Site para Markting e divulgação de cursos, direção, eventos, noticias, upload de documentos etc... da escola com Angular + Spring Boot
+ 
 ## Tecnologias
 - Frontend: Angular
 - Backend: Spring Boot
