@@ -1,0 +1,39 @@
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h3>Gestão de Documentos</h3>
+    <button pButton icon="pi pi-plus" label="Novo Documento" (click)="novoDocumento()"></button>
+  </div>
+
+  <div class="card-body">
+    <p-table [value]="documentos.content" [loading]="loading" [paginator]="true" 
+             [rows]="size" [totalRecords]="documentos.totalElements"
+             (onPage)="onPageChange($event)" [rowsPerPageOptions]="[5,10,20]">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Nome</th>
+          <th>Descrição</th>
+          <th>Data Upload</th>
+          <th>Tamanho</th>
+          <th>Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-documento>
+        <tr>
+          <td>{{documento.nome}}</td>
+          <td>{{documento.descricao || 'Sem descrição'}}</td>
+          <td>{{documento.dataUpload | date:'dd/MM/yyyy HH:mm'}}</td>
+          <td>{{documento.tamanho | fileSize}}</td>
+          <td>
+            <button pButton icon="pi pi-download" class="p-button-rounded p-button-info mr-2"
+                    (click)="baixarDocumento(documento)"></button>
+            <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                    (click)="confirmarExclusao(documento.id)"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+<p-toast></p-toast>

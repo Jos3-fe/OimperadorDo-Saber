@@ -1,0 +1,86 @@
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h3>Gestão de Galerias</h3>
+    <button pButton icon="pi pi-plus" label="Nova Galeria" (click)="novaGaleria()"></button>
+  </div>
+
+  <div class="card-body">
+    <div class="mb-3">
+      <div class="row">
+        <div class="col-md-4">
+          <label for="anoLetivo" class="form-label">Filtrar por Ano Letivo</label>
+          <!-- CORREÇÃO: Usar anosLetivosOptions -->
+          <p-dropdown [options]="anosLetivosOptions" 
+                      [(ngModel)]="anoSelecionado"
+                      (onChange)="filtrarPorAno()" 
+                      placeholder="Selecione um ano"
+                      [showClear]="true">
+          </p-dropdown>
+        </div>
+        <div class="col-md-4">
+          <label for="tag" class="form-label">Filtrar por Tag</label>
+          <!-- CORREÇÃO: Usar tagsOptions -->
+          <p-dropdown [options]="tagsOptions" 
+                      [(ngModel)]="tagSelecionada"
+                      (onChange)="filtrarPorTag()" 
+                      placeholder="Selecione uma tag"
+                      [showClear]="true">
+          </p-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADICIONAR: Debug info quando não há dados -->
+    <div *ngIf="!loading && galerias.content.length === 0" class="alert alert-info">
+      <i class="pi pi-info-circle"></i> Nenhuma galeria encontrada.
+    </div>
+
+    <p-table [value]="galerias.content" 
+             [loading]="loading" 
+             [paginator]="true"
+             [rows]="size" 
+             [totalRecords]="galerias.totalElements"
+             (onPage)="onPageChange($event)" 
+             [rowsPerPageOptions]="[12,24,36]"
+             [lazy]="false">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Título</th>
+          <th>Ano Letivo</th>
+          <th>Imagens</th>
+          <th>Data Publicação</th>
+          <th>Tags</th>
+          <th>Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-galeria>
+        <tr>
+          <td>{{galeria.titulo}}</td>
+          <td>{{galeria.anoLetivo}}</td>
+          <td>
+            <span class="badge bg-primary">{{galeria.imagens?.length || 0}}</span>
+          </td>
+          <td>{{galeria.dataPublicacao | date:'dd/MM/yyyy'}}</td>
+          <td>
+            <span *ngFor="let tag of galeria.tags" class="badge bg-secondary me-1">{{tag}}</span>
+          </td>
+          <td>
+            <button pButton icon="pi pi-eye" class="p-button-rounded p-button-info mr-2"
+                    (click)="verGaleria(galeria.id)"></button>
+            <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                    (click)="editarGaleria(galeria.id)"></button>
+            <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                    (click)="confirmarExclusao(galeria.id)"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+<p-toast></p-toast>
+
+
+
+

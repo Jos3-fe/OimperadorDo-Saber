@@ -1,0 +1,60 @@
+<div class="footer" style="background-color: #1e3a8a; color: white;">
+  <div class="container py-5">
+    <div class="row g-4"> <!-- Adicionei espaçamento entre colunas com g-4 -->
+      <!-- Coluna 1: Logo e Sobre -->
+      <div class="col-lg-5 col-md-6 mb-4"> <!-- Aumentei a largura desta coluna -->
+        <div class="d-flex align-items-center mb-3">
+          <img src="assets/logo.png" alt="O IMPERADOR DO SABER" height="50" class="me-3">
+          <h4 class="text-white mb-0">O IMPERADOR DO SABER</h4>
+        </div>
+        <p class="text-white mb-4">
+          Transformando carreiras através da educação de qualidade.
+        </p>
+        <div class="d-flex gap-3">
+          <a href="#" class="text-white fs-4"><i class="pi pi-facebook"></i></a>
+          <a href="#" class="text-white fs-4"><i class="pi pi-instagram"></i></a>
+          <a href="#" class="text-white fs-4"><i class="pi pi-linkedin"></i></a>
+          <a href="#" class="text-white fs-4"><i class="pi pi-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Coluna 2: Links Rápidos -->
+      <div class="col-lg-3 col-md-6 mb-4"> <!-- Ajuste proporcional -->
+        <h5 class="text-white mb-3">Links Rápidos</h5>
+        <ul class="list-unstyled">
+          <li class="mb-2"><a routerLink="/home" class="text-white text-decoration-none">Início</a></li>
+          <li class="mb-2"><a routerLink="/cursos" class="text-white text-decoration-none">Cursos</a></li>
+          <li class="mb-2"><a routerLink="/eventos" class="text-white text-decoration-none">Eventos</a></li>
+          <li><a routerLink="/sobre-nos" class="text-white text-decoration-none">Sobre Nós</a></li>
+        </ul>
+      </div>
+
+      <!-- Coluna 3: Contato -->
+      <div class="col-lg-4 col-md-12 mb-4"> <!-- Ajuste para ocupar o espaço restante -->
+        <h5 class="text-white mb-3">Contato</h5>
+        <ul class="list-unstyled text-white">
+          <li class="mb-3 d-flex align-items-center">
+            <i class="pi pi-envelope me-2"></i>
+            contato&#64;escolamarketing.com
+          </li>
+          <li class="mb-3 d-flex align-items-center">
+            <i class="pi pi-phone me-2"></i>
+            +244 923 456 789
+          </li>
+          <li class="d-flex align-items-start">
+            <i class="pi pi-map-marker me-2 mt-1"></i>
+            <span>Icolo e Bengo, Angola</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+    
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <p class="text-white-50 mb-3 mb-md-0">
+        © {{ currentYear }} O IMPERADOR DO SABER. Todos os direitos reservados.
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="admin-container">
+  <div class="sidebar">
+    <div class="logo">
+      <img src="assets/logo.png" alt="Logo" height="40">
+      <span>Painel Admin</span>
+    </div>
+    
+    <nav class="admin-nav">
+      <ul>
+        <li *ngFor="let item of menuItems">
+          <a [routerLink]="item.routerLink" routerLinkActive="active">
+            <i [class]="item.icon"></i> {{item.label}}
+          </a>
+        </li>
+      </ul>
+    </nav>
+    
+    <div class="user-info">
+      <p>{{adminInfo?.nome}} ({{adminInfo?.role}})</p>
+      <button (click)="logout()" class="logout-btn">
+        <i class="pi pi-sign-out"></i> Sair
+      </button>
+    </div>
+  </div>
+  
+  <div class="main-content">
+    <!-- Este router-outlet é ESSENCIAL para mostrar o conteúdo das rotas filhas -->
+    <router-outlet></router-outlet>
+  </div>
+</div>

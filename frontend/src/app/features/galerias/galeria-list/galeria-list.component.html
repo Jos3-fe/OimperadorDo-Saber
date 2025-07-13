@@ -1,0 +1,197 @@
+<style>
+  /* Variáveis de cor (se não estiverem globalmente definidas) */
+  :root {
+      --primary-color: #1e3a8a;
+      --warning-color: #f59e0b;
+      --success-color: #10b981;
+      --info-color: #06b6d4;
+      --danger-color: #ef4444;
+  }
+
+  .bg-primary { background-color: var(--primary-color) !important; }
+  .text-primary { color: var(--primary-color) !important; }
+  .btn-primary { background-color: var(--primary-color); border-color: var(--primary-color); }
+  .btn-primary:hover { background-color: #1a2f6b; border-color: #1a2f6b; }
+  .btn-warning { background-color: var(--warning-color); border-color: var(--warning-color); }
+  .btn-outline-primary { border-color: var(--primary-color); color: var(--primary-color); }
+  .btn-outline-primary:hover { background-color: var(--primary-color); color: white; }
+
+  .hero-curso {
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      padding: 80px 0;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+  }
+  .hero-overlay {
+      background-color: rgba(0,0,0,0.4);
+      padding: 20px;
+      border-radius: 8px;
+  }
+  .section-title {
+      color: var(--primary-color);
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+  }
+  .list-icon {
+      color: var(--success-color); /* Cor para ícones de listas */
+      margin-right: 0.5rem;
+  }
+  .module-card .card-header {
+      background-color: var(--primary-color);
+      color: white;
+  }
+  .sticky-sidebar {
+      position: -webkit-sticky; /* For Safari */
+      position: sticky;
+      top: 80px; /* Adjust based on your header height */
+  }
+  .nav-pills .nav-link.active {
+      background-color: var(--primary-color) !important;
+      color: white !important;
+  }
+</style>  
+  
+  
+  
+  <section class="hero-curso" [style.background-image]="'url(' + (curso?.id || '/../../../../assets/cursos/galeria.jpeg') + ')'">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-8 offset-lg-2 text-center hero-overlay">
+                  <h1 class="display-3 fw-bold mb-3">Nossas Galerias</h1>
+                  <p class="lead">Reviva momentos especiais através de nossas memórias visuais.</p>
+              </div>
+          </div>
+      </div>
+  </section>
+
+<section class="py-4">
+  <div class="container">
+
+    <!-- Filtros -->
+    <div class="row mb-4 align-items-center">
+      <div class="col-md-4 mb-3 mb-md-0">
+        <label for="anoLetivoFilter" class="form-label mb-1">Filtrar por Ano Letivo:</label>
+        <p-dropdown [options]="anosLetivosOptions" 
+                    [(ngModel)]="anoSelecionado"
+                    (onChange)="filtrarPorAno()" 
+                    placeholder="Todos os Anos"
+                    [showClear]="true" 
+                    styleClass="w-full">
+        </p-dropdown>
+      </div>
+      <div class="col-md-4">
+        <label for="tagFilter" class="form-label mb-1">Filtrar por Tag:</label>
+        <p-dropdown [options]="tagsOptions" 
+                    [(ngModel)]="tagSelecionada"
+                    (onChange)="filtrarPorTag()" 
+                    placeholder="Todas as Tags"
+                    [showClear]="true" 
+                    styleClass="w-full">
+        </p-dropdown>
+      </div>
+    </div>
+
+    <!-- Conteúdo das Galerias -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+      <!-- Indicador de Carregamento -->
+      <div *ngIf="loading" class="col-12 text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Carregando...</span>
+        </div>
+        <p class="mt-2">Carregando galerias...</p>
+      </div>
+
+      <!-- Iteração sobre as Galerias -->
+      <div class="col" *ngFor="let galeria of galerias.content; trackBy: trackByGaleriaId">
+        <p-card styleClass="h-100 shadow-sm border-0 gallery-card">
+          <ng-template pTemplate="header">
+            <!-- Imagem de capa da galeria -->
+            <!-- Assume que galeria.imagens[0] é a primeira imagem e que ela é a URL direta -->
+            <img [src]="galeria.imagens?.[0] || 'https://placehold.co/600x400/e0e0e0/ffffff?text=Sem+Imagem'" 
+                 [alt]="galeria.titulo" 
+                 class="w-100" 
+                 style="height: 200px; object-fit: cover; border-top-left-radius: 6px; border-top-right-radius: 6px;">
+          </ng-template>
+          <ng-template pTemplate="title">
+            <h5 class="card-title mb-1 text-primary text-truncate" [title]="galeria.titulo">
+              {{ galeria.titulo }}
+            </h5>
+          </ng-template>
+          <ng-template pTemplate="subtitle">
+            <small class="text-muted d-block mb-2">
+              <i class="fas fa-calendar-alt me-1"></i> {{ galeria.dataPublicacao | date:'dd/MM/yyyy' }} 
+              <span *ngIf="galeria.anoLetivo">| <i class="fas fa-graduation-cap me-1"></i> {{ galeria.anoLetivo }}</span>
+            </small>
+            <div class="tags">
+              <span *ngFor="let tag of galeria.tags" class="badge bg-info text-white me-1 mb-1">{{ tag }}</span>
+              <span *ngIf="!galeria.tags || galeria.tags.length === 0" class="badge bg-light text-muted">Sem tags</span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <div class="d-grid">
+              <button pButton 
+                      label="Ver Mais" 
+                      icon="pi pi-eye" 
+                      class="p-button-sm p-button-outlined" 
+                      (click)="verGaleria(galeria.id)">
+              </button>
+            </div>
+          </ng-template>
+        </p-card>
+      </div>
+
+      <!-- Mensagem quando não há galerias -->
+      <div *ngIf="!loading && galerias.content.length === 0" class="col-12 text-center py-5">
+        <div class="alert alert-info">
+          <i class="pi pi-info-circle"></i> Nenhuma galeria encontrada.
+        </div>
+      </div>
+    </div>
+
+    <!-- Paginação -->
+    <div *ngIf="galerias.totalElements > size" class="d-flex justify-content-center mt-5">
+      <p-paginator [rows]="size" 
+                   [totalRecords]="galerias.totalElements" 
+                   [rowsPerPageOptions]="[12,24,36]"
+                   (onPageChange)="onPageChange($event)">
+      </p-paginator>
+    </div>
+  </div>
+</section>
+
+<!-- Componente Toast para exibir mensagens -->
+<p-toast></p-toast>
+
+<!-- CSS Personalizado para a página de galerias -->
+<style>
+  .gallery-card .p-card-content {
+    padding-top: 0 !important; /* Remove padding extra acima do título */
+  }
+
+  .gallery-card .p-card-body {
+    padding: 1rem !important; /* Ajusta o padding interno do card */
+  }
+
+  .gallery-card img {
+    border-radius: 8px 8px 0 0; /* Arredonda apenas os cantos superiores da imagem */
+  }
+
+  .gallery-card {
+    border-radius: 8px; /* Arredonda os cantos do card */
+    overflow: hidden; /* Garante que a imagem siga o border-radius */
+  }
+
+  .gallery-card:hover {
+    transform: translateY(-5px); /* Efeito de elevação ao passar o mouse */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important; /* Sombra mais pronunciada */
+    transition: all 0.3s ease-in-out;
+  }
+
+  .p-dropdown {
+    width: 100%; /* Garante que o dropdown ocupe a largura total */
+  }
+</style>

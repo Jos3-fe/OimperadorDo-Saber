@@ -1,0 +1,42 @@
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h3>Gestão de Administradores</h3>
+    <button pButton icon="pi pi-plus" label="Novo Administrador" (click)="novoAdministrador()"></button>
+  </div>
+
+  <div class="card-body">
+    <p-table [value]="administradores" [loading]="loading" [paginator]="true" [rows]="10">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Cargo</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-admin>
+        <tr>
+          <td>{{admin.nome}}</td>
+          <td>{{admin.email}}</td>
+          <td>{{admin.cargo || '-'}}</td>
+          <td>
+            <p-tag [value]="admin.ativo ? 'Ativo' : 'Inativo'" 
+                   [severity]="getSeverity(admin.ativo)"></p-tag>
+          </td>
+          <td>
+            <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                    (click)="editarAdministrador(admin.id!)"></button>
+            <button pButton icon="pi pi-power-off" class="p-button-rounded p-button-warning mr-2"
+                    (click)="toggleAtivo(admin.id!)"></button>
+            <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                    (click)="confirmarExclusao(admin.id!)"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+<p-toast></p-toast>

@@ -1,0 +1,79 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h3>{{ isEdit ? 'Editar Administrador' : 'Novo Administrador' }}</h3>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="adminForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome *</label>
+          <input type="text" class="form-control" id="nome" formControlName="nome"
+                 [ngClass]="{ 'is-invalid': adminForm.get('nome')?.invalid && (adminForm.get('nome')?.dirty || adminForm.get('nome')?.touched) }">
+          <div *ngIf="adminForm.get('nome')?.invalid && (adminForm.get('nome')?.dirty || adminForm.get('nome')?.touched)"
+               class="invalid-feedback">
+            Nome é obrigatório
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email *</label>
+          <input type="email" class="form-control" id="email" formControlName="email"
+                 [ngClass]="{ 'is-invalid': adminForm.get('email')?.invalid && (adminForm.get('email')?.dirty || adminForm.get('email')?.touched) }">
+          <div *ngIf="adminForm.get('email')?.invalid && (adminForm.get('email')?.dirty || adminForm.get('email')?.touched)"
+               class="invalid-feedback">
+            Informe um email válido
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="senha" class="form-label">{{ isEdit ? 'Nova Senha' : 'Senha *' }}</label>
+          <input type="password" class="form-control" id="senha" formControlName="senha"
+                 [ngClass]="{ 'is-invalid': adminForm.get('senha')?.invalid && (adminForm.get('senha')?.dirty || adminForm.get('senha')?.touched) }">
+          <div *ngIf="adminForm.get('senha')?.invalid && (adminForm.get('senha')?.dirty || adminForm.get('senha')?.touched)"
+               class="invalid-feedback">
+            Senha deve ter pelo menos 6 caracteres
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="cargo" class="form-label">Cargo</label>
+          <input type="text" class="form-control" id="cargo" formControlName="cargo">
+          <p-dropdown [options]="cargos" formControlName="cargo" 
+                      placeholder="Selecione o tipo de acesso" [showClear]="false"
+                      [ngClass]="{ 'ng-invalid ng-dirty': adminForm.get('cargo')?.invalid && (adminForm.get('cargo')?.dirty || adminForm.get('cargo')?.touched) }">
+          </p-dropdown>
+          <div *ngIf="adminForm.get('cargo')?.invalid && (adminForm.get('cargo')?.dirty || adminForm.get('cargo')?.touched)"
+               class="invalid-feedback">
+            Selecione o tipo de acesso
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="role" class="form-label">Tipo de Acesso *</label>
+          <p-dropdown [options]="roles" formControlName="role" 
+                      placeholder="Selecione o tipo de acesso" [showClear]="false"
+                      [ngClass]="{ 'ng-invalid ng-dirty': adminForm.get('role')?.invalid && (adminForm.get('role')?.dirty || adminForm.get('role')?.touched) }">
+          </p-dropdown>
+          <div *ngIf="adminForm.get('role')?.invalid && (adminForm.get('role')?.dirty || adminForm.get('role')?.touched)"
+               class="invalid-feedback">
+            Selecione o tipo de acesso
+          </div>
+        </div>
+
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="ativo" formControlName="ativo">
+          <label class="form-check-label" for="ativo">Ativo</label>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-secondary" routerLink="/admin/admins">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="adminForm.invalid">
+            {{ isEdit ? 'Atualizar' : 'Salvar' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<p-toast></p-toast>

@@ -1,0 +1,81 @@
+<section class="py-4">
+  <div class="container">
+    <div class="card shadow border-0 noticia-detail-card">
+      <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Detalhes da Notícia</h5>
+        <button pButton 
+                icon="pi pi-arrow-left" 
+                label="Voltar para Notícias" 
+                class="p-button-secondary" 
+                (click)="voltar()">
+        </button>
+      </div>
+
+      <div class="card-body">
+        <!-- Indicador de Carregamento -->
+        <div *ngIf="loading" class="text-center py-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Carregando...</span>
+          </div>
+          <p class="mt-2">Carregando detalhes da notícia...</p>
+        </div>
+
+        <!-- Conteúdo da Notícia -->
+        <div *ngIf="!loading && noticia" class="row">
+          <div class="col-12 mb-4 text-center">
+            <h2 class="fw-bold text-primary mb-3">{{ noticia.titulo }}</h2>
+            <p class="text-muted mb-4">
+              <i class="fas fa-calendar-alt me-2"></i> Publicado em: 
+              <strong>{{ noticia.dataPublicacao | date:'dd/MM/yyyy' }}</strong>
+            </p>
+            
+            <!-- Imagem da Notícia em destaque -->
+            <div class="text-center mb-4">
+              <img [src]="noticia.imgUrl || 'https://placehold.co/800x450/e0e0e0/ffffff?text=Sem+Imagem'" 
+                   [alt]="noticia.titulo" 
+                   class="img-fluid rounded shadow-sm" 
+                   style="max-height: 450px; object-fit: cover;">
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="p-card p-component p-4 shadow-sm border-0">
+              <div class="p-card-content">
+                <p class="lead text-dark-emphasis" style="white-space: pre-wrap;">
+                  {{ noticia.conteudo }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mensagem se a notícia não for encontrada após o carregamento -->
+        <div *ngIf="!loading && !noticia" class="alert alert-danger text-center py-5">
+          <i class="pi pi-exclamation-triangle"></i> Notícia não encontrada.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Componente Toast para exibir mensagens -->
+<p-toast></p-toast>
+
+<!-- CSS Personalizado para a página de detalhes da notícia -->
+<style>
+  .noticia-detail-card {
+    border-radius: 10px;
+  }
+  .noticia-detail-card .card-header {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  .noticia-detail-card img {
+    max-width: 100%;
+    height: auto;
+  }
+  .p-card-content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+</style>

@@ -1,0 +1,196 @@
+<style>
+  /* Variáveis de cor (se não estiverem globalmente definidas) */
+  :root {
+      --primary-color: #1e3a8a;
+      --warning-color: #f59e0b;
+      --success-color: #10b981;
+      --info-color: #06b6d4;
+      --danger-color: #ef4444;
+  }
+
+  .bg-primary { background-color: var(--primary-color) !important; }
+  .text-primary { color: var(--primary-color) !important; }
+  .btn-primary { background-color: var(--primary-color); border-color: var(--primary-color); }
+  .btn-primary:hover { background-color: #1a2f6b; border-color: #1a2f6b; }
+  .btn-warning { background-color: var(--warning-color); border-color: var(--warning-color); }
+  .btn-outline-primary { border-color: var(--primary-color); color: var(--primary-color); }
+  .btn-outline-primary:hover { background-color: var(--primary-color); color: white; }
+
+  .hero-curso {
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      padding: 80px 0;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+  }
+  .hero-overlay {
+      background-color: rgba(0,0,0,0.4);
+      padding: 20px;
+      border-radius: 8px;
+  }
+  .section-title {
+      color: var(--primary-color);
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+  }
+  .list-icon {
+      color: var(--success-color); /* Cor para ícones de listas */
+      margin-right: 0.5rem;
+  }
+  .module-card .card-header {
+      background-color: var(--primary-color);
+      color: white;
+  }
+  .sticky-sidebar {
+      position: -webkit-sticky; /* For Safari */
+      position: sticky;
+      top: 80px; /* Adjust based on your header height */
+  }
+  .nav-pills .nav-link.active {
+      background-color: var(--primary-color) !important;
+      color: white !important;
+  }
+</style>  
+  
+  
+  
+  <section class="hero-curso" [style.background-image]="'url(' + (curso?.id || '/../../../../assets/cursos/documento.jpeg') + ')'">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-8 offset-lg-2 text-center hero-overlay">
+                  <h1 class="display-3 fw-bold mb-3">Documentos</h1>
+                  <p class="lead">Aqui você encontra acesso fácil a documentos importantes, comunicados e outros arquivos.</p>
+              </div>
+          </div>
+      </div>
+  </section>
+
+
+
+
+<section class="py-4">
+  <div class="container">
+
+    <!-- Indicador de Carregamento -->
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Carregando...</span>
+      </div>
+      <p class="mt-2">Carregando documentos...</p>
+    </div>
+
+    <!-- Lista de Documentos -->
+    <div *ngIf="!loading && documentos.length > 0" class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="list-group document-list-group shadow-sm">
+          <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center document-item-header py-3">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-file-alt me-3 fs-4 text-primary"></i>
+              <h6 class="mb-0 fw-bold text-primary">Nome do Documento / Descrição</h6>
+            </div>
+            <div class="d-none d-md-block text-muted fw-bold">Data de Publicação</div>
+            <div></div> <!-- Espaçador para o botão de download -->
+          </div>
+
+          <a *ngFor="let doc of documentos; trackBy: trackByDocumentoId"
+             class="list-group-item list-group-item-action d-flex justify-content-between align-items-center document-item py-3"
+             href="javascript:void(0)"
+             (click)="downloadDocumento(doc.id, doc.nomeArquivo || 'documento.pdf')"
+             title="Clique para baixar: {{ doc.nomeArquivo || 'Documento' }}">
+            
+            <div class="d-flex align-items-center flex-grow-1">
+              <i [class]="getFileIcon(doc.nome || '')" class="me-3 fs-4"></i>
+              <div>
+                <h6 class="mb-1 text-dark">{{ doc.nome || 'Documento sem nome' }}</h6>
+                <p class="mb-0 text-muted small">{{ doc.descricao || 'Nenhuma descrição disponível.' }}</p>
+              </div>
+            </div>
+            <div class="text-muted small text-end d-none d-md-block ms-3">
+              {{ doc.dataUpload | date:'dd/MM/yyyy' }}
+            </div>
+            <button pButton 
+                    icon="pi pi-download" 
+                    label="Baixar" 
+                    class="p-button-sm p-button-text p-button-info ms-3 flex-shrink-0"
+                    (click)="$event.stopPropagation(); downloadDocumento(doc.id, doc.nomeArquivo || 'documento.pdf')">
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensagem quando não há documentos -->
+    <div *ngIf="!loading && documentos.length === 0" class="text-center py-5">
+      <div class="alert alert-info">
+        <i class="pi pi-info-circle"></i> Nenhum documento encontrado no momento.
+      </div>
+    </div>
+
+    <!-- Paginação -->
+    <div *ngIf="totalRecords > size" class="d-flex justify-content-center mt-5">
+      <p-paginator [rows]="size" 
+                   [totalRecords]="totalRecords" 
+                   [rowsPerPageOptions]="[10,20,30]"
+                   (onPageChange)="onPageChange($event)">
+      </p-paginator>
+    </div>
+  </div>
+</section>
+
+<!-- Componente Toast para exibir mensagens -->
+<p-toast></p-toast>
+
+<!-- CSS Personalizado para a página de documentos -->
+<style>
+  .document-list-group {
+    border-radius: 8px;
+    overflow: hidden; /* Para garantir que os border-radius funcionem nos itens */
+  }
+
+  .document-item-header {
+    background-color: #f8f9fa; /* Um cinza claro para o cabeçalho */
+    border-bottom: 1px solid #e0e0e0;
+    color: #1e3a8a; /* Cor primária para o texto do cabeçalho */
+  }
+
+  .document-item {
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    border: none; /* Remove bordas padrão dos itens */
+    border-bottom: 1px solid #eee; /* Adiciona uma borda inferior suave */
+  }
+
+  .document-item:last-child {
+    border-bottom: none; /* Remove a borda do último item */
+  }
+
+  .document-item:hover {
+    background-color: #f0f4f8; /* Um fundo sutil ao passar o mouse */
+    transform: translateX(5px); /* Um pequeno deslize para a direita */
+    cursor: pointer;
+  }
+
+  .document-item .p-button {
+    white-space: nowrap; /* Impede que o texto do botão quebre */
+  }
+
+  /* Ajustes para telas menores */
+  @media (max-width: 767.98px) {
+    .document-item .d-flex {
+      flex-direction: column;
+      align-items: flex-start !important;
+    }
+    .document-item .ms-3 {
+      margin-left: 0 !important;
+      margin-top: 0.5rem;
+    }
+    .document-item .text-end {
+      text-align: left !important;
+    }
+    .document-item-header .d-none.d-md-block {
+      display: none !important;
+    }
+  }
+</style>

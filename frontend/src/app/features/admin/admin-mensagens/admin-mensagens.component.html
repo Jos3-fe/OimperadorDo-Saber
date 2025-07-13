@@ -1,0 +1,143 @@
+<div class="container-fluid py-4">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Mensagens de Contato</h5>
+        <div class="d-flex gap-2">
+          <div class="input-group input-group-sm" style="width: 250px;">
+            <input 
+              type="text" 
+              class="form-control" 
+              placeholder="Pesquisar..." 
+              [(ngModel)]="searchTerm"
+              (keyup.enter)="onFilterChange()"
+              (input)="onFilterChange()"
+            >
+            <button class="btn btn-outline-light" type="button" (click)="onFilterChange()">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-body">
+      <!-- Debug info - remover em produção -->
+      <div class="alert alert-info" *ngIf="!loading">
+        <small>
+          Debug: {{ mensagens.length }} mensagens carregadas, 
+          {{ filteredMensagens.length }} filtradas, 
+          Total: {{ totalItems }}, 
+          Páginas: {{ totalPages }}
+        </small>
+      </div>
+      
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Telefone</th>
+              <th>Assunto</th>
+              <th>Mensagem</th>
+              <th>Data</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="loading">
+              <td colspan="8" class="text-center py-4"> <!-- Ajustado colspan para 8 por causa do novo botão -->
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Carregando...</span>
+                </div>
+              </td>
+            </tr>
+            
+            <tr *ngFor="let mensagem of filteredMensagens; trackBy: trackByMensagemId">
+              <td>{{ mensagem.id }}</td>
+              <td>{{ mensagem.nome || 'N/A' }}</td>
+              <td>{{ mensagem.email || 'N/A' }}</td>
+              <td>{{ mensagem.telefone || 'N/A' }}</td>
+              <td>{{ mensagem.assunto || 'N/A' }}</td>
+              <td>{{ mensagem.mensagem || 'N/A' }}</td>
+              <td>{{ mensagem.dataCriacao | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>
+                <div class="d-flex gap-2">
+                  <!-- Botão de Responder adicionado aqui -->
+                  <button 
+                    class="btn btn-sm btn-info text-white" 
+                    (click)="abrirModalResponder(mensagem)"
+                    title="Responder"
+                  >
+                    <i class="fas fa-reply"></i>
+                  </button>
+                  
+                  <button 
+                    class="btn btn-sm btn-danger" 
+                    (click)="confirmarExclusao(mensagem.id)" 
+                    title="Excluir"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            
+            <tr *ngIf="!loading && filteredMensagens.length === 0">
+              <td colspan="8" class="text-center py-4"> <!-- Ajustado colspan para 8 -->
+                <div *ngIf="searchTerm; else noMessages">
+                  Nenhuma mensagem encontrada para "{{ searchTerm }}"
+                </div>
+                <ng-template #noMessages>
+                  Nenhuma mensagem encontrada
+                </ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Paginação -->
+      <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="!loading">
+        <div>
+          <span *ngIf="totalItems > 0">
+            Mostrando {{ (currentPage - 1) * itemsPerPage + 1 }} a 
+            {{ Math.min(currentPage * itemsPerPage, totalItems) }} de {{ totalItems }} mensagens
+          </span>
+          <span *ngIf="totalItems === 0">
+            Nenhuma mensagem para exibir
+          </span>
+        </div>
+        
+        <nav *ngIf="totalPages > 1">
+          <ul class="pagination mb-0">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <a class="page-link" (click)="onPageChange(currentPage - 1)" style="cursor: pointer;">
+                Anterior
+              </a>
+            </li>
+            
+            <li class="page-item" 
+                *ngFor="let page of getPaginas()" 
+                [class.active]="page === currentPage">
+              <a class="page-link" (click)="onPageChange(page)" style="cursor: pointer;">
+                {{ page }}
+              </a>
+            </li>
+            
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <a class="page-link" (click)="onPageChange(currentPage + 1)" style="cursor: pointer;">
+                Próxima
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Adicionar o componente de diálogo de confirmação do PrimeNG -->
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>

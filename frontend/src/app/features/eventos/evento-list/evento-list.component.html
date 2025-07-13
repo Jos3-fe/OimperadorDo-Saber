@@ -1,0 +1,153 @@
+<style>
+  /* Variáveis de cor (se não estiverem globalmente definidas) */
+  :root {
+      --primary-color: #1e3a8a;
+      --warning-color: #f59e0b;
+      --success-color: #10b981;
+      --info-color: #06b6d4;
+      --danger-color: #ef4444;
+  }
+
+  .bg-primary { background-color: var(--primary-color) !important; }
+  .text-primary { color: var(--primary-color) !important; }
+  .btn-primary { background-color: var(--primary-color); border-color: var(--primary-color); }
+  .btn-primary:hover { background-color: #1a2f6b; border-color: #1a2f6b; }
+  .btn-warning { background-color: var(--warning-color); border-color: var(--warning-color); }
+  .btn-outline-primary { border-color: var(--primary-color); color: var(--primary-color); }
+  .btn-outline-primary:hover { background-color: var(--primary-color); color: white; }
+
+  .hero-curso {
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      padding: 80px 0;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+  }
+  .hero-overlay {
+      background-color: rgba(0,0,0,0.4);
+      padding: 20px;
+      border-radius: 8px;
+  }
+  .section-title {
+      color: var(--primary-color);
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+  }
+  .list-icon {
+      color: var(--success-color); /* Cor para ícones de listas */
+      margin-right: 0.5rem;
+  }
+  .module-card .card-header {
+      background-color: var(--primary-color);
+      color: white;
+  }
+  .sticky-sidebar {
+      position: -webkit-sticky; /* For Safari */
+      position: sticky;
+      top: 80px; /* Adjust based on your header height */
+  }
+  .nav-pills .nav-link.active {
+      background-color: var(--primary-color) !important;
+      color: white !important;
+  }
+</style>  
+  
+  
+  
+  <section class="hero-curso" [style.background-image]="'url(' + (curso?.id || '/../../../../assets/evento03.jpeg') + ')'">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-8 offset-lg-2 text-center hero-overlay">
+                  <h1 class="display-3 fw-bold mb-3">Eventos da Escola</h1>
+                  <p class="lead">Fique por dentro das próximas atividades e reviva momentos especiais!</p>
+              </div>
+          </div>
+      </div>
+  </section>
+
+
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-primary">Próximos Eventos</h2>
+            <p class="text-muted">Não perca o que a Escola de Excelência tem para oferecer!</p>
+        </div>
+
+        <div class="row">
+        <ng-container *ngIf="!loading && eventos.content.length > 0; else noUpcomingEvents">
+        <div class="col-lg-4 col-md-6 mb-4" *ngFor="let evento of eventos.content">
+            <div class="card h-100 shadow-sm event-card">
+                <img [src]="evento.imgUrl3 || 'assets/images/default-event.jpg'" class="card-img-top" alt="Imagem do Evento">
+                <div class="event-date-badge">
+                    {{ evento.data | date:'dd MMM, yyyy HH:mm' }} 
+                </div>
+                <div class="card-body">
+                            <h5 class="card-title fw-bold text-primary">{{ evento.titulo }}</h5>
+                            <p class="card-text text-muted small">{{ evento.descricao }}</p>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <i class="fas fa-map-marker-alt me-1"></i> {{ evento.local }}
+                                </small>
+                            </p>
+                        </div>
+            </div>
+        </div>
+        </ng-container>
+        <ng-template #noUpcomingEvents>
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-calendar-alt text-muted display-4 mb-3"></i>
+                <p class="lead text-muted" *ngIf="!loading">
+                    {{ eventos.content.length === 0 ? 'Nenhum evento futuro programado no momento. Fique atento às novidades!' : 'Carregando eventos...' }}
+                </p>
+            </div>
+        </ng-template>
+    </div>
+  </div>
+</section>
+
+<!--
+<section class="py-5 bg-light">
+
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-primary">Eventos Realizados</h2>
+            <p class="text-muted">Relembre alguns dos nossos momentos mais memoráveis</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <ng-container *ngIf="eventosPassados.length > 0; else noPastEvents">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center mb-2 shadow-sm rounded" *ngFor="let evento of eventosPassados">
+                            <div>
+                                <h5 class="mb-1 fw-bold">{{ evento.titulo }}</h5>
+                                <p class="mb-1 text-muted small">{{ evento.descricao }}</p>
+                                <small class="text-secondary">
+                                    <i class="fas fa-calendar-check me-1"></i> {{ evento.data | date:'dd MMM, yyyy' }}
+                                    <span class="ms-3"><i class="fas fa-map-marker-alt me-1"></i> {{ evento.local }}</span>
+                                </small>
+                            </div>
+                            <img src="assets/evento03.jpeg" alt="Evento Passado" class="rounded" style="width: 70px; height: 70px; object-fit: cover;">
+                        </li>
+                    </ul>
+                </ng-container>
+                <ng-template #noPastEvents>
+                    <div class="col-12 text-center py-4">
+                        <i class="fas fa-history text-muted display-4 mb-3"></i>
+                        <p class="lead text-muted">Ainda não temos eventos passados para exibir. Em breve, muitas histórias para contar!</p>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</section>
+-->
+
+<section class="py-5 bg-primary text-white text-center">
+    <div class="container">
+       
+    </div>
+</section>

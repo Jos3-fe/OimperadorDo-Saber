@@ -1,0 +1,32 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h3>Novo Documento</h3>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="documento" class="form-label">Documento (PDF) *</label>
+          <input type="file" class="form-control" id="documento" 
+                 accept=".pdf" (change)="onFileChange($event)" required>
+          <small class="text-muted">Apenas arquivos PDF são aceites</small>
+        </div>
+
+        <div class="mb-3">
+          <label for="descricao" class="form-label">Descrição</label>
+          <textarea class="form-control" id="descricao" rows="3" 
+                   [(ngModel)]="descricao" name="descricao"></textarea>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-secondary" routerLink="/admin/documentos">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!selectedFile">
+            Enviar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<p-toast></p-toast>

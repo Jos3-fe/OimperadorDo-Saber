@@ -1,0 +1,67 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h3>{{ isEdit ? 'Editar Membro' : 'Novo Membro' }}</h3>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="direcaoForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+        <!-- Campo Nome -->
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome *</label>
+          <input type="text" class="form-control" id="nome" formControlName="nome"
+                 [ngClass]="{ 'is-invalid': direcaoForm.get('nome')?.invalid && (direcaoForm.get('nome')?.dirty || direcaoForm.get('nome')?.touched) }">
+          <div *ngIf="direcaoForm.get('nome')?.invalid && (direcaoForm.get('nome')?.dirty || direcaoForm.get('nome')?.touched)"
+               class="invalid-feedback">
+            Nome é obrigatório
+          </div>
+        </div>
+
+        <!-- Campo Cargo -->
+        <div class="mb-3">
+          <label for="cargo" class="form-label">Cargo *</label>
+          <input type="text" class="form-control" id="cargo" formControlName="cargo"
+                 [ngClass]="{ 'is-invalid': direcaoForm.get('cargo')?.invalid && (direcaoForm.get('cargo')?.dirty || direcaoForm.get('cargo')?.touched) }">
+          <div *ngIf="direcaoForm.get('cargo')?.invalid && (direcaoForm.get('cargo')?.dirty || direcaoForm.get('cargo')?.touched)"
+               class="invalid-feedback">
+            Cargo é obrigatório
+          </div>
+        </div>
+
+        <!-- Campo Detalhes -->
+        <div class="mb-3">
+          <label for="detalhes" class="form-label">Detalhes</label>
+          <textarea class="form-control" id="detalhes" rows="3" formControlName="detalhes"></textarea>
+        </div>
+
+        <!-- Campo Imagem -->
+        <div class="mb-3">
+          <label for="imagem" class="form-label">Foto</label>
+          <input type="file" class="form-control" id="imagem" (change)="onFileChange($event)" accept="image/*">
+          
+          <!-- Pré-visualização da imagem -->
+          <div *ngIf="imagemPreview || (direcaoForm.value.imgUrl && !imagemPreview)" class="mt-2">
+            <img [src]="imagemPreview || direcaoForm.value.imgUrl" alt="Pré-visualização" class="img-thumbnail" width="150">
+          </div>
+          
+          <!-- Checkbox para manter imagem (somente em edição) -->
+          <div *ngIf="isEdit && direcaoForm.value.imgUrl" class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="manterImagem" formControlName="manterImagem">
+            <label class="form-check-label" for="manterImagem">
+              Manter imagem atual
+            </label>
+          </div>
+        </div>
+
+        <!-- Botões -->
+        <div class="d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-secondary" routerLink="/admin/direcao">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="direcaoForm.invalid">
+            {{ isEdit ? 'Atualizar' : 'Salvar' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<p-toast></p-toast>

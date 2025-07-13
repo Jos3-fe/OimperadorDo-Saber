@@ -1,0 +1,200 @@
+<style>
+  /* Variáveis de cor (se não estiverem globalmente definidas) */
+  :root {
+      --primary-color: #1e3a8a;
+      --warning-color: #f59e0b;
+      --success-color: #10b981;
+      --info-color: #06b6d4;
+      --danger-color: #ef4444;
+  }
+
+  .bg-primary { background-color: var(--primary-color) !important; }
+  .text-primary { color: var(--primary-color) !important; }
+  .btn-primary { background-color: var(--primary-color); border-color: var(--primary-color); }
+  .btn-primary:hover { background-color: #1a2f6b; border-color: #1a2f6b; }
+  .btn-warning { background-color: var(--warning-color); border-color: var(--warning-color); }
+  .btn-outline-primary { border-color: var(--primary-color); color: var(--primary-color); }
+  .btn-outline-primary:hover { background-color: var(--primary-color); color: white; }
+
+  .hero-curso {
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      padding: 80px 0;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+  }
+  .hero-overlay {
+      background-color: rgba(0,0,0,0.4);
+      padding: 20px;
+      border-radius: 8px;
+  }
+  .section-title {
+      color: var(--primary-color);
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+  }
+  .list-icon {
+      color: var(--success-color); /* Cor para ícones de listas */
+      margin-right: 0.5rem;
+  }
+  .module-card .card-header {
+      background-color: var(--primary-color);
+      color: white;
+  }
+  .sticky-sidebar {
+      position: -webkit-sticky; /* For Safari */
+      position: sticky;
+      top: 80px; /* Adjust based on your header height */
+  }
+  .nav-pills .nav-link.active {
+      background-color: var(--primary-color) !important;
+      color: white !important;
+  }
+</style>  
+  
+  
+  
+  <section class="hero-curso" [style.background-image]="'url(' + (curso?.id || '/../../../../assets/cursos/noticias.jpeg') + ')'">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-8 offset-lg-2 text-center hero-overlay">
+                  <h1 class="display-3 fw-bold mb-3">Últimas Notícias</h1>
+                  <p class="lead">Fique por dentro dos acontecimentos e novidades da nossa escola.</p>
+              </div>
+          </div>
+      </div>
+  </section>
+
+
+
+<section class="py-4">
+  <div class="container">
+
+    <!-- Indicador de Carregamento -->
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Carregando...</span>
+      </div>
+      <p class="mt-2">Carregando notícias...</p>
+    </div>
+
+    <!-- Lista de Notícias em Cards -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div class="col" *ngFor="let noticia of noticias.content; trackBy: trackByNoticiaId">
+        <p-card styleClass="h-100 shadow-sm border-0 noticia-card">
+          <ng-template pTemplate="header">
+            <!-- Imagem da notícia -->
+            <!-- Assume que noticia.imagemUrl é a URL da imagem. Se for só o nome do arquivo, adicione um prefixo da base URL do backend -->
+            <img [src]="noticia.imgUrl || 'https://placehold.co/600x400/e0e0e0/ffffff?text=Sem+Imagem'" 
+                 [alt]="noticia.titulo" 
+                 class="w-100" 
+                 style="height: 220px; object-fit: cover; border-top-left-radius: 6px; border-top-right-radius: 6px;">
+          </ng-template>
+          <ng-template pTemplate="title">
+            <h5 class="card-title mb-1 text-primary text-truncate" [title]="noticia.titulo">
+              {{ noticia.titulo }}
+            </h5>
+          </ng-template>
+          <ng-template pTemplate="subtitle">
+            <small class="text-muted d-block mb-2">
+              <i class="fas fa-calendar-alt me-1"></i> {{ noticia.dataPublicacao | date:'dd/MM/yyyy' }}
+            </small>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <p class="card-text text-dark-emphasis mb-3">
+              {{ truncateContent(noticia.conteudo, 120) }} <!-- Trunca o conteúdo para um snippet -->
+            </p>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <div class="d-grid">
+              <button pButton 
+                      label="Ler Mais" 
+                      icon="pi pi-book" 
+                      class="p-button-sm p-button-outlined" 
+                      (click)="verNoticia(noticia.id)">
+              </button>
+            </div>
+          </ng-template>
+        </p-card>
+      </div>
+
+      <!-- Mensagem quando não há notícias -->
+      <div *ngIf="!loading && noticias.content.length === 0" class="col-12 text-center py-5">
+        <div class="alert alert-info">
+          <i class="pi pi-info-circle"></i> Nenhuma notícia encontrada no momento.
+        </div>
+      </div>
+    </div>
+
+    <!-- Paginação -->
+    <div *ngIf="noticias.totalElements > size" class="d-flex justify-content-center mt-5">
+      <p-paginator [rows]="size" 
+                   [totalRecords]="noticias.totalElements" 
+                   [rowsPerPageOptions]="[10,20,30]"
+                   (onPageChange)="onPageChange($event)">
+      </p-paginator>
+    </div>
+  </div>
+</section>
+
+<!-- Componente Toast para exibir mensagens -->
+<p-toast></p-toast>
+
+<!-- CSS Personalizado para a página de notícias -->
+<style>
+  .noticia-card {
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer; /* Indica que o card é clicável */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .noticia-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 0.8rem 1.5rem rgba(0, 0, 0, 0.18) !important;
+  }
+
+  .noticia-card .p-card-header img {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  .noticia-card .p-card-body {
+    padding: 1.25rem;
+  }
+
+  .noticia-card .p-card-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    height: 3.2em; /* Aproximadamente 2 linhas de texto */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limita a 2 linhas */
+    -webkit-box-orient: vertical;
+  }
+
+  .noticia-card .p-card-subtitle {
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+
+  .noticia-card .p-card-content p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    height: 4.8em; /* Aproximadamente 3 linhas de texto */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limita a 3 linhas */
+    -webkit-box-orient: vertical;
+  }
+
+  .noticia-card .p-card-footer {
+    padding-top: 0.5rem;
+  }
+</style>

@@ -1,0 +1,194 @@
+<style>
+  /* Variáveis de cor (se não estiverem globalmente definidas) */
+  :root {
+      --primary-color: #1e3a8a;
+      --warning-color: #f59e0b;
+      --success-color: #10b981;
+      --info-color: #06b6d4;
+      --danger-color: #ef4444;
+  }
+
+  .bg-primary { background-color: var(--primary-color) !important; }
+  .text-primary { color: var(--primary-color) !important; }
+  .btn-primary { background-color: var(--primary-color); border-color: var(--primary-color); }
+  .btn-primary:hover { background-color: #1a2f6b; border-color: #1a2f6b; }
+  .btn-warning { background-color: var(--warning-color); border-color: var(--warning-color); }
+  .btn-outline-primary { border-color: var(--primary-color); color: var(--primary-color); }
+  .btn-outline-primary:hover { background-color: var(--primary-color); color: white; }
+
+  .hero-curso {
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      padding: 80px 0;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+  }
+  .hero-overlay {
+      background-color: rgba(0,0,0,0.4);
+      padding: 20px;
+      border-radius: 8px;
+  }
+  .section-title {
+      color: var(--primary-color);
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+  }
+  .list-icon {
+      color: var(--success-color); /* Cor para ícones de listas */
+      margin-right: 0.5rem;
+  }
+  .module-card .card-header {
+      background-color: var(--primary-color);
+      color: white;
+  }
+  .sticky-sidebar {
+      position: -webkit-sticky; /* For Safari */
+      position: sticky;
+      top: 80px; /* Adjust based on your header height */
+  }
+  .nav-pills .nav-link.active {
+      background-color: var(--primary-color) !important;
+      color: white !important;
+  }
+</style>  
+  
+  
+  
+  <section class="hero-curso" [style.background-image]="'url(' + (curso?.id || '/../../../../assets/cursos/informatica.jpeg') + ')'">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-8 offset-lg-2 text-center hero-overlay">
+                  <h1 class="display-3 fw-bold mb-3">Nossos Cursos</h1>
+                  <p class="lead">Descubra os programas académicos.</p>
+              </div>
+          </div>
+      </div>
+  </section>
+    
+
+    <!-- Pré Escolar Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-primary section-title">Pré Escolar</h2>
+                <p class="text-muted">A base sólida para o futuro dos seus filhos.</p>
+            </div>
+
+            <!-- Cursos do Pré Escolar -->
+            <div class="row row-cols-1 row-cols-md-1 row-cols-lg-1 g-4 justify-content-center">
+                <div class="col-lg-6 animate-in" *ngFor="let pre of preEscolar; ">
+                    <a [routerLink]="['/cursos', pre.categoria]" class="card h-100 cycle-card pre-escolar">
+                        <div class="card-body">
+                            <i class="fas fa-graduation-cap card-icon"></i>
+                            <h5 class="card-title">{{ pre.nome }}</h5>
+                            <p class="card-text">{{ pre.descricaoDetalhada }}</p>
+                            <h5 class="card-title">Propina: {{ pre.preco }} por/mês</h5>
+                            <small class="text-muted mt-auto">Clique para detalhes</small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ensino Primário Section -->
+   <section class="py-5 section-bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-primary section-title">Ensino Primário</h2>
+                <p class="text-muted">A base sólida para o futuro dos seus filhos.</p>
+            </div>
+
+            <!-- Cursos do Ensino Primário - Versão Corrigida -->
+                <div class="row row-cols-1 row-cols-lg-1 g-4 justify-content-center">
+                    <div class="col-lg-6 animate-in" *ngFor="let ciclo of ensinoPrimario; let i = index" 
+                        [ngStyle]="{'animation-delay': (i * 0.1) + 's'}">
+                        <a [routerLink]="['/cursos', ciclo.categoria]" class="card h-100 cycle-card ensino-primario">
+                            <div class="card-body">
+                                <i class="fas fa-book-reader card-icon"></i>
+                                <h5 class="card-title">{{ ciclo.nome }}</h5>
+                                <p class="card-text">{{ ciclo.descricaoDetalhada }}</p>
+                                <h5 class="card-title">Propina: {{ ciclo.preco }} por/mês</h5>
+                                <small class="text-muted mt-auto">Clique para detalhes</small>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+        </div>
+    </section>
+
+
+    <!-- I Ciclo Section -->
+    <!-- I Ciclo Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-primary section-title">I Ciclo</h2>
+                <p class="text-muted">A transição para um aprendizado mais aprofundado.</p>
+            </div>
+
+            <!-- Cursos do I Ciclo - Versão Corrigida -->
+            <div class="row row-cols-1 row-cols-lg-1 g-4 justify-content-center">
+                <div class="col-lg-6 animate-in" *ngFor="let priCiclo of primeiroCiclo; let i = index" 
+                    [style.animation-delay]="(i * 0.1) + 's'">
+                    <a [routerLink]="['/cursos', priCiclo.categoria]" class="card h-100 cycle-card primeiro-ciclo">
+                        <div class="card-body">
+                            <i class="fas fa-school card-icon"></i>
+                            <h5 class="card-title">{{ priCiclo.nome }}</h5>
+                            <p class="card-text">{{ priCiclo.descricaoDetalhada }}</p>
+                            <h5 class="card-title">Propina: {{ priCiclo.preco }} por/mês</h5>
+                            <small class="text-muted mt-auto">Clique para detalhes</small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- II Ciclo e Cursos Técnicos Section -->
+    <section class="py-5 section-bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-primary section-title">II Ciclo e Cursos Técnicos</h2>
+                <p class="text-muted">Nossos cursos técnicos que preparam para o mercado de trabalho.</p>
+            </div>
+
+            <!-- Cursos do II Ciclo - Versão Corrigida -->
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <div class="col animate-in" *ngFor="let segCiclo of segundoCiclo; let i = index" 
+                    [ngStyle]="{'animation-delay': (i * 0.1) + 's'}">
+                    <a [routerLink]="['/cursos', segCiclo.categoria, segCiclo.nome]" class="card h-100 course-card informatica">
+                        <div class="card-body text-center">
+                            <i class="fas fa-laptop-code card-icon"></i>
+                            <h5 class="card-title">{{ segCiclo.nome }}</h5>
+                            <p class="card-text">{{ segCiclo.descricaoDetalhada }}</p>
+                            <h5 class="card-title">Propina: {{ segCiclo.preco }} por/mês</h5>
+                            <small class="text-muted mt-auto">Clique para detalhes</small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div class="container text-center text-white">
+            <h2 class="fw-bold mb-4">Pronto para começar?</h2>
+            <p class="lead mb-4">Entre em contacto connosco para mais informações sobre matrículas e cursos disponíveis.</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="#" class="btn btn-light btn-lg">
+                    <i class="fas fa-phone me-2"></i>Contactar
+                </a>
+                <a href="#" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-info-circle me-2"></i>Mais Informações
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+   

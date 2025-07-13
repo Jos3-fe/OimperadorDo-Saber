@@ -1,0 +1,363 @@
+<!-- Hero Section -->
+<!-- Hero Section -->
+<section class="hero-section text-white py-5" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('assets/imperador.jpeg'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 70vh;">
+  <div class="container">
+    <div class="row align-items-center min-vh-50">
+      <div class="col-lg-8 mx-auto text-center">
+        <div class="hero-content">
+          <h1 class="display-4 fw-bold mb-4">
+              O IMPERADOR DO SABER
+            <span class="text-warning">Educação de excelência, valores que inspiram</span>
+          </h1>
+          <p class="lead mb-4">
+            Uma escola comprometida com a excelência acadêmica, oferecendo 
+            cursos técnicos para formar os profissionais do amanhã.
+          </p>
+          <div class="d-flex flex-wrap gap-3 justify-content-center">
+            <a routerLink="/cursos" class="btn btn-warning btn-lg px-4">
+              <i class="fas fa-graduation-cap me-2"></i>
+              Nossos Cursos
+            </a>
+            <a routerLink="/eventos" class="btn btn-outline-light btn-lg px-4">
+              <i class="fas fa-calendar me-2"></i>
+              Eventos Acadêmicos
+            </a>
+          </div>
+          <div class="mt-4">
+            <p class="mb-4"><strong>Matrículas Abertas 2025-2026</strong></p>
+            <p class="small mb-0">Ensino da Iniciação à 13ª Classe</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section py-5 bg-light">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-3 mb-4">
+        <div class="stat-item">
+          <i class="fas fa-user-graduate text-primary fs-1 mb-3"></i>
+          <h3 class="fw-bold">200+</h3>
+          <p class="text-muted">Estudantes que estão sendo Formados</p>
+        </div>
+      </div>
+      <div class="col-md-3 mb-4">
+        <div class="stat-item">
+          <i class="fas fa-book-open text-primary fs-1 mb-3"></i>
+          <h3 class="fw-bold">6+</h3>
+          <p class="text-muted">Cursos Oferecidos</p>
+        </div>
+      </div>
+      <div class="col-md-3 mb-4">
+        <div class="stat-item">
+          <i class="fas fa-chalkboard-teacher text-primary fs-1 mb-3"></i>
+          <h3 class="fw-bold">95%</h3>
+          <p class="text-muted">Taxa de Aprovação</p>
+        </div>
+      </div>
+      <div class="col-md-3 mb-4">
+        <div class="stat-item">
+          <i class="fas fa-award text-primary fs-1 mb-3"></i>
+          <h3 class="fw-bold">1+</h3>
+          <p class="text-muted">Anos de Tradição</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Courses Section -->
+<section class="featured-courses py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Cursos Oferecidos</h2>
+      <p class="text-muted">Conheça nossa oferta acadêmica para o ano letivo 2025-2026</p>
+    </div>
+
+    <div class="row" *ngIf="!loading && cursosDestaque.length > 0">
+      <div class="col-lg-4 col-md-6 mb-4" *ngFor="let curso of cursosDestaque">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ curso.nome }}</h5>
+            <p class="card-text text-muted flex-grow-1">{{ curso.descricaoDetalhada }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="price">
+                <span class="h6 text-primary mb-0">
+                  <i class="fas fa-info-circle me-1"></i>
+                  Mais Informações
+                </span>
+              </div>
+              <a [routerLink]="['/cursos']" class="btn btn-outline-primary">
+                Ver Detalhes
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-4" *ngIf="!loading">
+      <a routerLink="/cursos" class="btn btn-primary btn-lg">
+        Ver Todos os Cursos
+        <i class="fas fa-arrow-right ms-2"></i>
+      </a>
+    </div>
+
+    <!-- Loading State -->
+    <div class="text-center" *ngIf="loading">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Carregando...</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Academic Activities Section -->
+<section class="academic-activities py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Atividades Extracurriculares</h2>
+      <p class="text-muted">Formação completa além da sala de aula</p>
+    </div>
+
+    <div class="row">
+      <!-- Aula de Reforço -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="activity-card text-center p-4 h-100">
+          <div class="activity-icon bg-primary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+            <i class="fas fa-book fs-4"></i>
+          </div>
+          <h5>Aula de Reforço</h5>
+          <p class="text-muted">Apoio pedagógico personalizado</p>
+        </div>
+      </div>
+      
+      <!-- Francês -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="activity-card text-center p-4 h-100">
+          <div class="activity-icon bg-success text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+            <i class="fas fa-language fs-4"></i>
+          </div>
+          <h5>Francês</h5>
+          <p class="text-muted">Língua estrangeira</p>
+        </div>
+      </div>
+      
+      <!-- Música -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="activity-card text-center p-4 h-100">
+          <div class="activity-icon bg-warning text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+            <i class="fas fa-music fs-4"></i>
+          </div>
+          <h5>Música</h5>
+          <p class="text-muted">Educação artística</p>
+        </div>
+      </div>
+      
+      <!-- Xadrez -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="activity-card text-center p-4 h-100">
+          <div class="activity-icon bg-info text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+            <i class="fas fa-chess fs-4"></i>
+          </div>
+          <h5>Xadrez</h5>
+          <p class="text-muted">Desenvolvimento cognitivo</p>
+        </div>
+      </div>
+
+      <!-- Piscina (Nova Atividade) -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="activity-card text-center p-4 h-100">
+          <div class="activity-icon bg-danger text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+            <i class="fas fa-swimming-pool fs-4"></i>
+          </div>
+          <h5>Natação</h5>
+          <p class="text-muted">Atividade física e recreação</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Upcoming Events Section -->
+<section class="upcoming-events py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Eventos Acadêmicos</h2>
+      <p class="text-muted">Acompanhe as atividades e eventos da nossa escola</p>
+    </div>
+
+    <div class="row" *ngIf="!loading && proximosEventos.length > 0">
+      <div class="col-lg-4 col-md-6 mb-4" *ngFor="let evento of proximosEventos">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-header bg-primary text-white text-center">
+            <div class="event-date">
+              <div class="day fs-2 fw-bold">{{ evento.dataEvento | date:'dd' }}</div>
+              <div class="month">{{ evento.dataEvento | date:'MMM' | uppercase }}</div>
+            </div>
+          </div>
+          <img [src]="evento.imgUrl || 'assets/images/default-event.jpg'" 
+               class="card-img-top" 
+               [alt]="evento.titulo"
+               style="height: 150px; object-fit: cover;">
+          <div class="card-body d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <span class="badge bg-info">{{ evento.tipo }}</span>
+              <span class="badge bg-success">Académico</span>
+            </div>
+            <h5 class="card-title">{{ evento.titulo }}</h5>
+            <p class="card-text text-muted flex-grow-1">{{ evento.descricao }}</p>
+            <div class="event-meta mb-3">
+              <small class="text-muted d-block">
+                <i class="fas fa-map-marker-alt me-1"></i>
+                {{ evento.local || 'Campus da Escola' }}
+              </small>
+              <small class="text-muted d-block">
+                <i class="fas fa-clock me-1"></i>
+                {{ evento.dataEvento | date:'HH:mm' }}
+              </small>
+              <small class="text-muted d-block">
+                <i class="fas fa-users me-1"></i>
+                Comunidade Escolar
+              </small>
+            </div>
+            <a [routerLink]="['/eventos', evento.id]" class="btn btn-primary w-100">
+              Ver Detalhes
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-4" *ngIf="!loading">
+      <a routerLink="/eventos" class="btn btn-info btn-lg">
+        Ver Todos os Eventos
+        <i class="fas fa-arrow-right ms-2"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Why Choose Us Section -->
+<section class="why-choose-us py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Por que escolher nossa escola?</h2>
+      <p class="text-muted">Diferenciais que fazem de nós a melhor opção educacional</p>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="feature-item text-center h-100 p-4">
+          <div class="feature-icon bg-primary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+            <i class="fas fa-chalkboard-teacher fs-3"></i>
+          </div>
+          <h4>Corpo Docente Qualificado</h4>
+          <p class="text-muted">
+            Professores experientes e dedicados, comprometidos com 
+            a excelência no ensino e aprendizagem.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="feature-item text-center h-100 p-4">
+          <div class="feature-icon bg-success text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+            <i class="fas fa-microscope fs-3"></i>
+          </div>
+          <h4>Laboratórios Equipados</h4>
+          <p class="text-muted">
+            Infraestrutura moderna com laboratórios de informática, 
+            ciências e salas especializadas.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="feature-item text-center h-100 p-4">
+          <div class="feature-icon bg-warning text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+            <i class="fas fa-medal fs-3"></i>
+          </div>
+          <h4>Tradição e Qualidade</h4>
+          <p class="text-muted">
+            Anos de experiência formando gerações de profissionais 
+            de sucesso em diversas áreas.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="feature-item text-center h-100 p-4">
+          <div class="feature-icon bg-info text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+            <i class="fas fa-users fs-3"></i>
+          </div>
+          <h4>Ambiente Acolhedor</h4>
+          <p class="text-muted">
+            Clima escolar positivo que favorece o desenvolvimento 
+            integral dos nossos estudantes.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="feature-item text-center h-100 p-4">
+          <div class="feature-icon bg-danger text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+            <i class="fas fa-handshake fs-3"></i>
+          </div>
+          <h4>Acompanhamento Personalizado</h4>
+          <p class="text-muted">
+            Atenção individualizada para garantir o sucesso 
+            acadêmico de cada estudante.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="feature-item text-center h-100 p-4">
+          <div class="feature-icon bg-secondary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+            <i class="fas fa-globe fs-3"></i>
+          </div>
+          <h4>Formação Integral</h4>
+          <p class="text-muted">
+            Educação que vai além dos conteúdos, preparando 
+            cidadãos conscientes e responsáveis.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Enrollment CTA Section -->
+<section class="cta-section bg-primary text-white py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <h3 class="fw-bold mb-2">Matrículas Abertas para 2025-2026!</h3>
+        <p class="mb-0">
+          Garante já a vaga do teu filho numa escola de referência. 
+          Oferecemos ensino da iniciação à 13ª classe.
+        </p>
+      </div>
+    
+    </div>
+    
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="contact-info text-center">
+          <p class="mb-2">
+            <i class="fas fa-phone me-2"></i>
+            <strong>Contactos:</strong> 938 411 990 / 927 944 172
+          </p>
+          <p class="mb-0">
+            <i class="fas fa-map-marker-alt me-2"></i>
+            <strong>Localização:</strong> Zango 0, Rua Nº 1, 6ª Travessa, Casa Nº 127B
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,30 @@
+.navbar {
+  .dropdown-menu {
+    background-color: #1e3a8a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    .dropdown-item {
+      color: white;
+      padding: 0.5rem 1rem;
+      
+      &:hover, &:focus {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+      }
+      
+      i {
+        width: 20px;
+        text-align: center;
+      }
+    }
+    
+    .dropdown-divider {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+  
+  .nav-link.dropdown-toggle {
+    display: flex;
+    align-items: center;
+  }
+}

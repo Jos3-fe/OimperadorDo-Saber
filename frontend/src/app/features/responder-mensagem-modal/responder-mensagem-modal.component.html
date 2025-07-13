@@ -1,0 +1,41 @@
+<div class="modal-header">
+    <h5 class="modal-title">Responder Mensagem</h5>
+    <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+  </div>
+  
+  <div class="modal-body">
+    <div class="mb-4">
+      <h6>De: {{ mensagem.nome }} &lt;{{ mensagem.email }}&gt;</h6>
+      <p class="text-muted mb-2">Assunto: {{ mensagem.assunto }}</p>
+      <p class="mb-0">{{ mensagem.mensagem }}</p>
+    </div>
+  
+    <div class="mb-3">
+      <label for="resposta" class="form-label">Sua Resposta *</label>
+      <textarea 
+        id="resposta" 
+        class="form-control" 
+        rows="5" 
+        [(ngModel)]="resposta"
+        placeholder="Escreva aqui a resposta para o contato..."
+      ></textarea>
+    </div>
+  </div>
+  
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="activeModal.dismiss()">
+      Cancelar
+    </button>
+    <button 
+      type="button" 
+      class="btn btn-primary" 
+      (click)="responder()"
+      [disabled]="!resposta.trim() || loading"
+    >
+      <span *ngIf="!loading">Enviar Resposta</span>
+      <span *ngIf="loading">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Enviando...
+      </span>
+    </button>
+  </div>

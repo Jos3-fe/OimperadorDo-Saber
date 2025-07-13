@@ -1,0 +1,164 @@
+<style>
+    /* Variáveis de cor (se não estiverem globalmente definidas) */
+    :root {
+        --primary-color: #1e3a8a;
+        --warning-color: #f59e0b;
+        --success-color: #10b981;
+        --info-color: #06b6d4;
+        --danger-color: #ef4444;
+    }
+  
+    .bg-primary { background-color: var(--primary-color) !important; }
+    .text-primary { color: var(--primary-color) !important; }
+    .btn-primary { background-color: var(--primary-color); border-color: var(--primary-color); }
+    .btn-primary:hover { background-color: #1a2f6b; border-color: #1a2f6b; }
+    .btn-warning { background-color: var(--warning-color); border-color: var(--warning-color); }
+    .btn-outline-primary { border-color: var(--primary-color); color: var(--primary-color); }
+    .btn-outline-primary:hover { background-color: var(--primary-color); color: white; }
+  
+    .hero-ciclo {
+        background-size: cover;
+        background-position: center;
+        color: white;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        padding: 80px 0;
+        min-height: 400px;
+        display: flex;
+        align-items: center;
+    }
+    .hero-overlay {
+        background-color: rgba(0,0,0,0.4);
+        padding: 20px;
+        border-radius: 8px;
+    }
+    .section-title {
+        color: var(--primary-color);
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+    }
+    .list-icon {
+        color: var(--success-color);
+        margin-right: 0.5rem;
+    }
+    .sticky-sidebar {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 80px;
+    }
+  </style>
+  
+  <ng-container *ngIf="ciclo; else loadingOrError">
+    <section class="hero-ciclo" [style.background-image]="'url(' + (ciclo.imagemCapa || 'assets/images/default-ciclo-banner.jpg') + ')'">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 text-center hero-overlay">
+                    <p class="h6 text-warning mb-2">Ciclo de Ensino</p>
+                    <h1 class="display-3 fw-bold mb-3">{{ ciclo.titulo }}</h1>
+                    <p class="lead">{{ ciclo.subtitulo }}</p>
+                    <div class="mt-4">
+                        <button class="btn btn-warning btn-lg me-3" (click)="router.navigate(['/admissoes'])">
+                            <i class="fas fa-graduation-cap me-2"></i>Matricule Já!
+                        </button>
+                        <button class="btn btn-outline-light btn-lg" (click)="router.navigate(['/contacto'])">
+                            <i class="fas fa-question-circle me-2"></i>Tirar Dúvidas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-body">
+                            <h3 class="section-title">Sobre o {{ ciclo.titulo }}</h3>
+                            <p class="lead">{{ ciclo.descricaoCompleta }}</p>
+  
+                            <hr class="my-4">
+  
+                            <div class="row text-center">
+                                <div class="col-md-4 mb-3">
+                                    <i class="fas fa-users display-6 text-primary mb-2"></i>
+                                    <p class="fw-bold mb-0">Faixa Etária</p>
+                                    <p class="text-muted">{{ ciclo.faixaEtaria }}</p>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <i class="fas fa-bullseye display-6 text-primary mb-2"></i>
+                                    <p class="fw-bold mb-0">Objectivos</p>
+                                    <p class="text-muted">Veja abaixo</p>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <i class="fas fa-book-open display-6 text-primary mb-2"></i>
+                                    <p class="fw-bold mb-0">Disciplinas</p>
+                                    <p class="text-muted">Saiba mais</p>
+                                </div>
+                            </div>
+  
+                            <hr class="my-4">
+  
+                            <h3 class="section-title">Objectivos Pedagógicos</h3>
+                            <ul class="list-unstyled">
+                                <li *ngFor="let obj of ciclo.objectivos" class="mb-2">
+                                    <i class="fas fa-check-circle list-icon"></i> {{ obj }}
+                                </li>
+                            </ul>
+  
+                            <h3 class="section-title mt-4">Disciplinas Principais</h3>
+                            <ul class="list-unstyled">
+                                <li *ngFor="let disc of ciclo.disciplinasPrincipais" class="mb-2">
+                                    <i class="fas fa-caret-right list-icon"></i> {{ disc }}
+                                </li>
+                            </ul>
+  
+                            <h3 class="section-title mt-4">Atividades Extracurriculares</h3>
+                            <ul class="list-unstyled">
+                                <li *ngFor="let atividade of ciclo.atividadesExtracurriculares" class="mb-2">
+                                    <i class="fas fa-star list-icon text-warning"></i> {{ atividade }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+  
+                <div class="col-lg-4">
+                    <div class="card shadow-sm sticky-sidebar">
+                        <div class="card-body">
+                            <h4 class="fw-bold mb-3 text-primary">Informações Rápidas</h4>
+                            <p class="mb-2"><i class="fas fa-users display-6 text-muted me-2"></i> **Público-alvo:** <span class="fw-bold">{{ ciclo.faixaEtaria }}</span></p>
+                            <p class="mb-2"><i class="fas fa-calendar-check display-6 text-muted me-2"></i> **Início do Ano Lectivo:** <span class="fw-bold">2025-2026</span></p>
+                            <p class="mb-2"><i class="fas fa-list-alt display-6 text-muted me-2"></i> **Atividades Extra:** <span class="fw-bold">Várias</span></p>
+  
+                            <div class="d-grid gap-2 mt-4">
+                                <a [routerLink]="['/admissoes']" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-pencil-alt me-2"></i>Matricule seu Filho(a)
+                                </a>
+                                <a [routerLink]="['/contacto']" class="btn btn-outline-primary btn-lg">
+                                    <i class="fas fa-envelope me-2"></i>Fale Connosco
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  </ng-container>
+  
+  <ng-template #loadingOrError>
+    <section class="py-5 text-center">
+        <div class="container">
+            <div class="spinner-border text-primary" role="status" *ngIf="!ciclo">
+                <span class="visually-hidden">A carregar detalhes...</span>
+            </div>
+            <div class="alert alert-warning mt-4" role="alert" *ngIf="!ciclo">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Informações do ciclo não encontradas ou ocorreu um erro.
+                <a [routerLink]="['/cursos']" class="btn btn-sm btn-link">Voltar à lista de cursos</a>
+            </div>
+        </div>
+    </section>
+  </ng-template>
+  

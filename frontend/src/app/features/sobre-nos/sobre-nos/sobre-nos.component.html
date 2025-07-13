@@ -1,0 +1,536 @@
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --warning-color: #f59e0b;
+            --success-color: #10b981;
+            --info-color: #06b6d4;
+            --danger-color: #ef4444;
+        }
+        
+        .bg-primary {
+            background-color: var(--primary-color) !important;
+        }
+        
+        .text-primary {
+            color: var(--primary-color) !important;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-warning {
+            background-color: var(--warning-color);
+            border-color: var(--warning-color);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: -30px;
+            width: 2px;
+            background: var(--primary-color);
+        }
+        
+        .timeline-item:last-child::before {
+            bottom: 0;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: 10px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--warning-color);
+        }
+        
+        .value-card {
+            transition: transform 0.3s ease;
+        }
+        
+        .value-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .team-member {
+            transition: transform 0.3s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+        
+        .team-member img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border: 4px solid var(--warning-color);
+        }
+
+        /* Estilos adicionais para o FAQ */
+        .accordion-button:not(.collapsed) {
+            color: var(--primary-color);
+            background-color: #e9ecef; /* Slightly darker than default */
+            box-shadow: inset 0 -1px 0 rgba(0,0,0,.125);
+        }
+        .accordion-button:focus {
+            box-shadow: 0 0 0 0.25rem rgba(30, 58, 138, 0.25); /* Primary color shadow */
+        }
+        .accordion-button::after {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%231e3a8a'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+            transform: rotate(-180deg);
+        }
+        .accordion-button.collapsed::after {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%231e3a8a'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+            transform: rotate(0deg);
+        }
+        .accordion-item {
+            border: 1px solid rgba(0,0,0,.125);
+            margin-bottom: 10px;
+            border-radius: .25rem;
+        }
+  /* Variáveis de cor (se não estiverem globalmente definidas) */
+  :root {
+      --primary-color: #1e3a8a;
+      --warning-color: #f59e0b;
+      --success-color: #10b981;
+      --info-color: #06b6d4;
+      --danger-color: #ef4444;
+  }
+
+  .bg-primary { background-color: var(--primary-color) !important; }
+  .text-primary { color: var(--primary-color) !important; }
+  .btn-primary { background-color: var(--primary-color); border-color: var(--primary-color); }
+  .btn-primary:hover { background-color: #1a2f6b; border-color: #1a2f6b; }
+  .btn-warning { background-color: var(--warning-color); border-color: var(--warning-color); }
+  .btn-outline-primary { border-color: var(--primary-color); color: var(--primary-color); }
+  .btn-outline-primary:hover { background-color: var(--primary-color); color: white; }
+
+  .hero-curso {
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      padding: 80px 0;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+  }
+  .hero-overlay {
+      background-color: rgba(0,0,0,0.4);
+      padding: 20px;
+      border-radius: 8px;
+  }
+  .section-title {
+      color: var(--primary-color);
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+  }
+  .list-icon {
+      color: var(--success-color); /* Cor para ícones de listas */
+      margin-right: 0.5rem;
+  }
+  .module-card .card-header {
+      background-color: var(--primary-color);
+      color: white;
+  }
+  .sticky-sidebar {
+      position: -webkit-sticky; /* For Safari */
+      position: sticky;
+      top: 80px; /* Adjust based on your header height */
+  }
+  .nav-pills .nav-link.active {
+      background-color: var(--primary-color) !important;
+      color: white !important;
+  }
+</style>  
+  
+  
+  
+  <section class="hero-curso" [style.background-image]="'url(' + (curso?.id || '/../../../../assets/cursos/sobreNos.jpeg') + ')'">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-8 offset-lg-2 text-center hero-overlay">
+                  <h1 class="display-3 fw-bold mb-3">Sobre a Nossa Escola</h1>
+                  <p class="lead">Conheça a nossa história, missão e valores que nos guiam.</p>
+              </div>
+          </div>
+      </div>
+  </section>
+  
+    <section class="text-white py-5">
+    </section>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="value-card card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="mb-3">
+                            <i class="fas fa-bullseye text-primary" style="font-size: 3rem;"></i>
+                        </div>
+                        <h4 class="fw-bold text-primary">Nossa Missão</h4>
+                        <p class="text-muted">
+                            O Complexo escolar privado "O Imperador do saber" tem por missão proporcionar Uma
+                            educacao de excelência, assente em valores humanos que inspiram e transformam.
+                            A instituição dedica-se a formacao academica e tecnica de alunos da iniciacao
+                            a 13 classe, nas modalidades de ensino geral e tecnico-profissional, promovendo 
+                            competencia nas areas de ciencias economicas e juridicas, contabilidade e gestao, 
+                            informática de gestao e gestao de recursos humanos.<br>
+
+                            Num ambiente multicultural e inclusivo, acolhendo estudantes de diversas modalidades
+                            e falantes de linguas como arabe, ingles, espanhol, frances e outras, o colegio promove 
+                            a convivencia harmoniosa, o respeito pela diversidade e a inclusao de alunos com 
+                            necessidades especias. Visa, igualmente, o fortalecimento de competencias na escrita,
+                            nas linguas estrangeira e na informatica. 
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mb-4">
+                    <div class="value-card card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="mb-3">
+                            <i class="fas fa-eye text-success" style="font-size: 3rem;"></i>
+                        </div>
+                        <h4 class="fw-bold text-success">Nossa Visão</h4>
+                        <p class="text-muted">
+                            Ser reconhecido, a nivel nacional e internacional, como uma instituição de 
+                            ensino de referência, que inspira pela qualidade de educação, pelo compromisso
+                            com a inclusao e pela promocao da interacao entre culturas, linguas e experiência 
+                            diversas. o Complexo escolar privado "O imperador do saber" ambiciona formar cidadãos
+                            críticos, eticos e preparados para os desafios de um mundo plural, promovendo o 
+                            desenvolvimento pessoal, social e profissional dos seus alunos.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mb-4">
+                    <div class="value-card card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="mb-3">
+                            <i class="fas fa-heart text-danger" style="font-size: 3rem;"></i>
+                        </div>
+                        <h4 class="fw-bold text-danger">Nossos Valores</h4>
+                        <p class="text-muted">
+                            Excelência - Compromisso com elevados padroes de ensino e aprendizagem.<br>
+                            inclusão - Acolhimento de alunos com diferentes origens, linguas, culturas 
+                            e necessidades especias.
+                            Diversidade - Valorizacao da pluralidade linguistica e cultural como factor 
+                            de enrequecimento colectivo.<br>
+                            Interaccao - Promocao de um ambiente onde o dialogo e a partilha de experiencias
+                            fortalecem a convivencia.<br>
+                            Disciplina - Educacao baseada no respeito na organizacao e na responsabilidade individual.<br>
+                            Etica - Formacao de cidadaos integros e conscientes do seu papel na sociedade.<br>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-primary">Nossa Liderança</h2>
+            <p class="text-muted">Conheça os profissionais que dirigem a nossa instituição</p>
+        </div>
+
+        <!-- Estado de carregamento -->
+        <div *ngIf="loading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Carregando...</span>
+            </div>
+            <p class="mt-3">Carregando membros da direção...</p>
+        </div>
+
+        <!-- Conteúdo dinâmico -->
+        <div class="row justify-content-center" *ngIf="!loading">
+            <!-- Caso não haja membros -->
+            <ng-container *ngIf="direcao.length === 0">
+                <div class="col-12 text-center py-5">
+                    <i class="fas fa-users text-muted display-4 mb-3"></i>
+                    <p class="lead text-muted">Nenhum membro da direção encontrado</p>
+                </div>
+            </ng-container>
+
+            <!-- Listagem dinâmica -->
+            <ng-container *ngIf="direcao.length > 0">
+                <div class="col-lg-4 col-md-6 mb-4" *ngFor="let membro of direcao">
+                    <div class="team-member card border-0 shadow-sm text-center p-4">
+                        <!-- Imagem com fallback caso não exista -->
+                        <img [src]="membro.imgUrl || 'assets/images/default-profile.png'" 
+                             [alt]="membro.nome" 
+                             class="rounded-circle mx-auto mb-3"
+                             style="width: 150px; height: 150px; object-fit: cover;">
+                        
+                        <h5 class="fw-bold">{{ membro.nome }}</h5>
+                        
+                        <!-- Cargo com cor baseada no tipo -->
+                        <p class="mb-2 text-primary">
+                            {{ membro.cargo }}
+                        </p>
+                        
+                        <p class="text-muted small">
+                            {{ membro.detalhes || 'Descrição não disponível' }}
+                        </p>
+                    </div>
+                </div>
+            </ng-container>
+          </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4">
+                    <h2 class="fw-bold text-primary mb-4">Nossa História</h2>
+                    <p class="text-muted mb-4">
+                        Fundada em 2024, a nossa escola nasceu do sonho de proporcionar 
+                        educação de qualidade e acessível para as famílias angolanas. 
+                        Começámos com um pequeno grupo de estudantes e professores dedicados, 
+                        e hoje somos uma instituição reconhecida pela excelência académica.
+                    </p>
+                    <p class="text-muted mb-4">
+                        Investimos constantemente na melhoria das 
+                        nossas instalações, na formação contínua dos nossos professores e 
+                        na implementação de metodologias inovadoras de ensino.
+                    </p>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="text-center">
+                                <h3 class="fw-bold text-primary">200+</h3>
+                                <p class="text-muted small">Estudantes sendo Formados</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center">
+                                <h3 class="fw-bold text-primary">1+</h3>
+                                <p class="text-muted small">Anos de Experiência</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <img src="assets/escola-historia.jpeg" 
+                             alt="História da Escola" 
+                             class="img-fluid rounded shadow"
+                             style="max-height: 400px; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <!--  <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-primary">Marcos da Nossa Jornada</h2>
+                <p class="text-muted">Principais conquistas ao longo dos anos</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="fw-bold text-primary">2024 - Fundação</h5>
+                                <p class="text-muted mb-0">
+                                    Início das atividades com 50 estudantes e foco no ensino primário
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="fw-bold text-primary">2024 - Expansão</h5>
+                                <p class="text-muted mb-0">
+                                    Introdução do ensino secundário e ampliação das instalações
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="fw-bold text-primary">2024 - Modernização</h5>
+                                <p class="text-muted mb-0">
+                                    Implementação de laboratórios de informática e ciências
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="fw-bold text-primary">2025 - Inovação</h5>
+                                <p class="text-muted mb-0">
+                                    Adaptação ao ensino híbrido e plataformas digitais
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="fw-bold text-primary">2025 - Presente</h5>
+                                <p class="text-muted mb-0">
+                                    Mais de 200 estudantes sendo formados e preparados para novos desafios
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    -->
+
+
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-primary">Nossas Instalações</h2>
+                <p class="text-muted">Espaços modernos e equipados para a melhor experiência educacional</p>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card border-0 shadow-sm text-center p-3">
+                        <i class="fas fa-laptop text-primary fs-1 mb-3"></i>
+                        <h6 class="fw-bold">Laboratório de Informática</h6>
+                        <p class="text-muted small mb-0">30 computadores modernos com internet de alta velocidade</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card border-0 shadow-sm text-center p-3">
+                        <i class="fas fa-microscope text-success fs-1 mb-3"></i>
+                        <h6 class="fw-bold">Laboratório de Ciências</h6>
+                        <p class="text-muted small mb-0">Equipamentos para experiências de Física, Química e Biologia</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card border-0 shadow-sm text-center p-3">
+                        <i class="fas fa-book text-warning fs-1 mb-3"></i>
+                        <h6 class="fw-bold">Biblioteca</h6>
+                        <p class="text-muted small mb-0">Mais de 5000 livros e recursos digitais para pesquisa</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card border-0 shadow-sm text-center p-3">
+                        <i class="fas fa-running text-info fs-1 mb-3"></i>
+                        <h6 class="fw-bold">Espaços Desportivos</h6>
+                        <p class="text-muted small mb-0">Campo de futebol, quadra de basquetebol e área de lazer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-primary">Perguntas Frequentes (FAQ)</h2>
+                <p class="text-muted">Encontre respostas para as suas dúvidas mais comuns</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Qual é o horário de funcionamento da secretaria?
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    A secretaria funciona de Segunda a Sexta-feira, das 8h00 às 16h00.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Quais documentos são necessários para a matrícula?
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Para a matrícula, são necessários: certidão de nascimento(ou a cópia do BI ), cópia do BI dos pais/encarregados, comprovativo de residência, boletim de vacinas e 2 fotos tipo passe do estudante.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    A escola oferece transporte escolar?
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Sim, a escola oferece serviço de transporte escolar com rotas definidas. Para mais informações sobre disponibilidade e custos, por favor, contacte a secretaria.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    Existem atividades extracurriculares?
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Oferecemos uma variedade de atividades extracurriculares, incluindo clubes de leitura, aulas de música, desporto, Natação e artes para complementar o desenvolvimento dos nossos estudantes.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <section class="py-5 bg-primary text-white text-center text-dark">
+        <div class="container">
+            <h2 class="fw-bold mb-3">Pronto para a Excelência Educacional?</h2>
+            <p class="lead mb-4">Junte-se à família da Escola de Excelência e prepare o futuro do seu filho.</p>
+            <a routerLink="/cursos" class="btn btn-warning btn-lg me-3">
+                <i class="fas fa-graduation-cap me-2"></i>Ver Cursos
+            </a>
+            <a routerLink="/contato"  class="btn btn-outline-light btn-lg">
+                <i class="fas fa-phone-alt me-2"></i>Fale Connosco
+            </a>
+        </div>
+    </section>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>

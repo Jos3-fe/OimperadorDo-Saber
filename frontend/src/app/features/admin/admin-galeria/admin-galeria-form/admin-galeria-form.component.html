@@ -1,0 +1,92 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h3>{{ isEdit ? 'Editar Galeria' : 'Nova Galeria' }}</h3>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="galeriaForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="titulo" class="form-label">Título *</label>
+          <input type="text" class="form-control" id="titulo" formControlName="titulo"
+                 [ngClass]="{ 'is-invalid': galeriaForm.get('titulo')?.invalid && (galeriaForm.get('titulo')?.dirty || galeriaForm.get('titulo')?.touched) }">
+          <div *ngIf="galeriaForm.get('titulo')?.invalid && (galeriaForm.get('titulo')?.dirty || galeriaForm.get('titulo')?.touched)"
+               class="invalid-feedback">
+            Título é obrigatório
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="conteudo" class="form-label">Conteúdo</label>
+          <textarea class="form-control" id="conteudo" rows="5" formControlName="conteudo"></textarea>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="anoLetivo" class="form-label">Ano Letivo</label>
+            <input type="text" class="form-control" id="anoLetivo" formControlName="anoLetivo">
+          </div>
+          <div class="col-md-6">
+            <label for="dataPublicacao" class="form-label">Data de Publicação</label>
+            <input type="date" class="form-control" id="dataPublicacao" formControlName="dataPublicacao">
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="tags" class="form-label">Tags (separadas por vírgula)</label>
+          <input type="text" class="form-control" id="tags" formControlName="tags">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Imagens</label>
+          <input type="file" class="form-control" id="imagens" multiple accept="image/*" (change)="onFileChange($event)">
+          
+          <div *ngIf="imagensPreview.length > 0 || (galeriaForm.value.imagens && galeriaForm.value.imagens.length > 0)" class="mt-3">
+            <div class="row">
+              <!-- Imagens existentes -->
+              <div *ngFor="let imagem of galeriaForm.value.imagens" class="col-md-3 mb-3 position-relative">
+                <div class="card">
+                  <img [src]="imagem" class="card-img-top" alt="Imagem da galeria">
+                  <div class="card-body p-2 text-center">
+                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0" 
+                            (click)="removerImagemExistente(imagem)">
+                      <i class="pi pi-times"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Novas imagens -->
+              <div *ngFor="let preview of imagensPreview; let i = index" class="col-md-3 mb-3 position-relative">
+                <div class="card">
+                  <img [src]="preview" class="card-img-top" alt="Nova imagem">
+                  <div class="card-body p-2 text-center">
+                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0" 
+                            (click)="removerNovaImagem(i)">
+                      <i class="pi pi-times"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div *ngIf="isEdit" class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="manterImagens" formControlName="manterImagens">
+            <label class="form-check-label" for="manterImagens">
+              Manter imagens atuais
+            </label>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-secondary" routerLink="/admin/galeria">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="galeriaForm.invalid">
+            {{ isEdit ? 'Atualizar' : 'Salvar' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<p-toast></p-toast>

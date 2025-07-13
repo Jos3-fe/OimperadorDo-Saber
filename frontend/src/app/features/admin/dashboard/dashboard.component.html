@@ -1,0 +1,49 @@
+<div class="dashboard-container">
+  <div class="header">
+    <h1><i [class]="icons.stats"></i> Dashboard Administrativo</h1>
+    <p>Bem-vindo ao painel de controle da escola</p>
+  </div>
+
+  <!-- Seção de Últimas Mensagens (Destaque) -->
+  <div class="recent-messages">
+    <h2>
+      <i [class]="icons.mensagens"></i> Últimas Mensagens
+      <span class="badge">{{ recentMessages.length }}</span>
+    </h2>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-spinner">
+      Carregando mensagens...
+    </div>
+
+    <!-- Mensagens -->
+    <div *ngIf="!loading" class="messages-list">
+      <div 
+        *ngFor="let message of recentMessages" 
+        class="message-item" 
+        [class.unread]="!message.lida" 
+        routerLink="/admin/mensagens"
+      >
+        <div class="message-header">
+          <span class="sender">{{ message.nome }}</span>
+          <span class="email">{{ message.email }}</span>
+        </div>
+        <div class="message-subject">{{ message.assunto }}</div>
+        <div class="message-preview">{{ message.mensagem | truncate:50 }}</div>
+        <div *ngIf="!message.lida" class="unread-badge">NOVA</div>
+      </div>
+
+      <!-- Sem mensagens -->
+      <div *ngIf="recentMessages.length === 0" class="no-messages">
+        Nenhuma mensagem recente.
+      </div>
+    </div>
+
+    <!-- Link para a página completa de mensagens -->
+    <div class="view-all">
+      <a routerLink="/admin/mensagens" class="view-all-link">
+        Ver todas as mensagens <i class="pi pi-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+<div class="container-fluid py-4">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">Detalhes da Galeria</h5>
+      <button pButton 
+              icon="pi pi-arrow-left" 
+              label="Voltar" 
+              class="p-button-secondary" 
+              (click)="voltar()">
+      </button>
+    </div>
+
+    <div class="card-body">
+      <!-- Indicador de Carregamento -->
+      <div *ngIf="loading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Carregando...</span>
+        </div>
+        <p class="mt-2">Carregando detalhes da galeria...</p>
+      </div>
+
+      <!-- Conteúdo da Galeria -->
+      <div *ngIf="!loading && galeria" class="row">
+        <div class="col-12 mb-4">
+          <h4>{{ galeria.titulo }}</h4>
+          <p class="text-muted">
+            Ano Letivo: <strong>{{ galeria.anoLetivo || 'N/A' }}</strong> | 
+            Publicado em: <strong><td>{{galeria.dataPublicacao | date:'dd/MM/yyyy'}}</strong>
+          </p>
+          <div class="mb-3">
+            <span *ngFor="let tag of galeria.tags" class="badge bg-secondary me-2">{{ tag }}</span>
+            <span *ngIf="!galeria.tags || galeria.tags.length === 0" class="text-muted">Nenhuma tag.</span>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <h5>Imagens da Galeria ({{ images.length }})</h5>
+          <div *ngIf="images.length > 0; else noImages" class="p-card p-component p-5">
+            <p-carousel [value]="images" 
+                        [numVisible]="responsiveOptions[0].numVisible" 
+                        [numScroll]="responsiveOptions[0].numScroll" 
+                        [responsiveOptions]="responsiveOptions"
+                        [circular]="true"
+                        [autoplayInterval]="3000">
+              <ng-template let-image pTemplate="item">
+                <div class="image-carousel-item p-3">
+                  <div class="border-1 surface-border border-round">
+                    <div class="mb-3">
+                      <!-- 
+                        ASSUMÇÃO: A propriedade 'url' ou 'path' em seu objeto de imagem contém a URL da imagem.
+                        Se sua API retornar imagens em outro formato (ex: Base64), você precisará ajustar isso.
+                        Se as imagens estiverem em um sub-objeto, ajuste o caminho (ex: image.propriedadeUrl).
+                      --> 
+                      <img [src]="image || image.path || 'https://placehold.co/400x300/e0e0e0/ffffff?text=Imagem+N/A'" 
+                           [alt]="galeria.titulo" 
+                           class="w-full shadow-2 my-3" 
+                           style="height: 300px; object-fit: cover; border-radius: 8px;">
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </p-carousel>
+          </div>
+          <ng-template #noImages>
+            <div class="alert alert-warning text-center">
+              <i class="pi pi-info-circle"></i> Nenhuma imagem encontrada para esta galeria.
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <!-- Mensagem se a galeria não for encontrada após o carregamento -->
+      <div *ngIf="!loading && !galeria" class="alert alert-danger text-center py-5">
+        <i class="pi pi-exclamation-triangle"></i> Galeria não encontrada.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Componente Toast para exibir mensagens -->
+<p-toast></p-toast>
