@@ -10,7 +10,7 @@ import { Admin } from '../models/admin';
   providedIn: 'root'
 })
 export class AdminService {
-  private apiUrl = `${environment.apiUrl}/api/admin/administradores`;
+  private apiUrl = `${environment.apiUrl}/admin/administradores`;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
