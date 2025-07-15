@@ -91,8 +91,7 @@ public class SecurityConfig {
                         // Permite GET para download de documentos (pelo ID)
                         .requestMatchers(HttpMethod.GET, "/api/documentos/download/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/documentos/download/**").permitAll() // Caso use sem /api
-
-
+                        
                         .requestMatchers(HttpMethod.GET, "/api/galeria/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/galeria/**").permitAll()
                         .requestMatchers("/api/galeria/admin/**").hasRole("ADMIN")
@@ -114,6 +113,26 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/cursos/paginated").permitAll() // Se você usa a rota sem /api também
                         .requestMatchers(HttpMethod.GET, "/api/cursos/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/cursos/{id}").permitAll()
+
+
+                        // Rotas de Categoria
+                        .requestMatchers(HttpMethod.GET, "/api/categoria/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/categoria/**").permitAll()
+
+                        // Rotas de Anos Letivos
+                        .requestMatchers(HttpMethod.GET, "/api/anos-letivos/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/anos-letivos/**").permitAll()
+
+                        // Rotas de Tags
+                        .requestMatchers(HttpMethod.GET, "/api/tags/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/tags/**").permitAll()
+
+                        // Se você tiver um endpoint paginado genérico na raiz ou /api/paginated
+                        // Verifique se realmente existe este endpoint genérico ou se o frontend está chamando o endpoint errado
+                        // É mais comum ter /api/galeria/paginated ou /api/noticias/paginated
+                        .requestMatchers(HttpMethod.GET, "/api/paginated").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/paginated").permitAll()
+
 
                         // Actuator
                         .requestMatchers("/api/actuator/**").permitAll()
