@@ -26,7 +26,7 @@ export class DocumentoService {
       sortDir
     };
     
-    return this.http.get<any>(`${environment.apiUrl}/paginated`, { 
+    return this.http.get<any>(`${environment.apiUrl}/documentos/paginated`, { 
       params,
       headers: this.getAuthHeaders()
     });
@@ -43,7 +43,7 @@ export class DocumentoService {
       sortDir
     };
     
-    return this.http.get<any>(`${environment.apiUrl}/paginated`, { params });
+    return this.http.get<any>(`${environment.apiUrl}/documentos/paginated`, { params });
   }
 
 
@@ -56,21 +56,21 @@ export class DocumentoService {
     const headers = this.getAuthHeaders()
       .set('admin-id', adminId.toString());
 
-    return this.http.post<DocumentoDTO>(`${environment.apiUrl}/admin/upload`, formData, { 
+    return this.http.post<DocumentoDTO>(`${environment.apiUrl}/documentos/admin/upload`, formData, { 
       headers 
     });
   }
 
   // Deletar documento
   deleteDocumento(id: number): Observable<void> {
-    return this.http.delete<void>(`${environment.apiUrl}/admin/${id}`, {
+    return this.http.delete<void>(`${environment.apiUrl}/documentos/admin/${id}`, {
       headers: this.getAuthHeaders()
     });
   }
 
   // MÉTODO CORRIGIDO - Download de documento
   downloadDocumento(documentoId: number): Observable<Blob> {
-    return this.http.get(`${environment.apiUrl}/download/${documentoId}`, {
+    return this.http.get(`${environment.apiUrl}/documentos/download/${documentoId}`, {
       responseType: 'blob',
       headers: this.getAuthHeaders() 
     });

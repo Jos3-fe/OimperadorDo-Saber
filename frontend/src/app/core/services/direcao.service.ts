@@ -48,7 +48,7 @@ export class DirecaoService {
     if (detalhes) formData.append('detalhes', detalhes);
     if (imagem) formData.append('imagem', imagem);
 
-    return this.http.post<DirecaoDTO>(`${environment.apiUrl}/admin`, formData, {
+    return this.http.post<DirecaoDTO>(`${environment.apiUrl}/direcao/admin`, formData, {
       headers: this.getAuthHeaders()
     });
   }
@@ -69,14 +69,14 @@ export class DirecaoService {
     if (imagem) formData.append('imagem', imagem);
     formData.append('manterImagem', manterImagem.toString());
 
-    return this.http.put<DirecaoDTO>(`${environment.apiUrl}/admin/${id}`, formData, {
+    return this.http.put<DirecaoDTO>(`${environment.apiUrl}/direcao/admin/${id}`, formData, {
       headers: this.getAuthHeaders()
     });
   }
 
   // Admin - Deletar membro
   deleteDirecao(id: number): Observable<void> {
-    return this.http.delete<void>(`${environment.apiUrl}/admin/${id}`, {
+    return this.http.delete<void>(`${environment.apiUrl}/direcao/admin/${id}`, {
       headers: this.getAuthHeaders()
     });
   }
@@ -86,7 +86,7 @@ export class DirecaoService {
     const formData = new FormData();
     formData.append('imagem', imagem);
 
-    return this.http.post<string>(`${environment.apiUrl}/admin/upload-image`, formData, {
+    return this.http.post<string>(`${environment.apiUrl}/direcao/admin/upload-image`, formData, {
       headers: this.getAuthHeaders()
     });
   }

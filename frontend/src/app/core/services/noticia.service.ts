@@ -34,7 +34,7 @@ export class NoticiaService {
       sortDir
     };
     
-    return this.http.get<any>(`${environment.apiUrl}/paginated`, { params });
+    return this.http.get<any>(`${environment.apiUrl}/noticias/paginated`, { params });
   }
    
   /**
@@ -70,7 +70,7 @@ export class NoticiaService {
     const headers = this.getAuthHeaders()
       .set('admin-id', adminId.toString()); // Certifique-se de que o backend usa este header
 
-    return this.http.post<NoticiaDTO>(`${environment.apiUrl}/admin`, formData, { headers });
+    return this.http.post<NoticiaDTO>(`${environment.apiUrl}/noticias/admin`, formData, { headers });
   }
 
   /**
@@ -96,7 +96,7 @@ export class NoticiaService {
     if (imagem) formData.append('imagem', imagem);
     formData.append('manterImagem', manterImagem.toString());
 
-    return this.http.put<NoticiaDTO>(`${environment.apiUrl}/admin/${id}`, formData, {
+    return this.http.put<NoticiaDTO>(`${environment.apiUrl}/noticias/admin/${id}`, formData, {
       headers: this.getAuthHeaders()
     });
   }
@@ -108,7 +108,7 @@ export class NoticiaService {
    * @returns Um Observable vazio.
    */
   deleteNoticia(id: number): Observable<void> {
-    return this.http.delete<void>(`${environment.apiUrl}/admin/${id}`, {
+    return this.http.delete<void>(`${environment.apiUrl}/noticias/admin/${id}`, {
       headers: this.getAuthHeaders()
     });
   }
@@ -123,7 +123,7 @@ export class NoticiaService {
     const formData = new FormData();
     formData.append('imagem', imagem);
 
-    return this.http.post<string>(`${environment.apiUrl}/admin/upload-image`, formData, {
+    return this.http.post<string>(`${environment.apiUrl}/noticias/admin/upload-image`, formData, {
       headers: this.getAuthHeaders()
     });
   }

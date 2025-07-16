@@ -31,7 +31,7 @@ export class EventoService {
       sortDir
     };
     
-    return this.http.get<any>(`${environment.apiUrl}/paginated`, { params });
+    return this.http.get<any>(`${environment.apiUrl}/eventos/paginated`, { params });
   }
 
   // Público - Buscar por ID
@@ -41,7 +41,7 @@ export class EventoService {
 
   // Admin - Listar todos
   getAllEventosAdmin(): Observable<EventoDTO[]> {
-    return this.http.get<EventoDTO[]>(`${environment.apiUrl}/admin/all`, {
+    return this.http.get<EventoDTO[]>(`${environment.apiUrl}/eventos/admin/all`, {
       headers: this.getAuthHeaders()
     });
   }
@@ -67,7 +67,7 @@ export class EventoService {
     formData.append('preco', preco.toString());
     if (imagem) formData.append('imagem', imagem);
 
-    return this.http.post<EventoDTO>(`${environment.apiUrl}/admin`, formData, {
+    return this.http.post<EventoDTO>(`${environment.apiUrl}/eventos/admin`, formData, {
       headers: this.getAuthHeaders()
     });
   }
@@ -96,14 +96,14 @@ export class EventoService {
     if (imagem) formData.append('imagem', imagem);
     formData.append('manterImagem', manterImagem.toString());
 
-    return this.http.put<EventoDTO>(`${environment.apiUrl}/admin/${id}`, formData, {
+    return this.http.put<EventoDTO>(`${environment.apiUrl}/eventos/admin/${id}`, formData, {
       headers: this.getAuthHeaders()
     });
   }
 
   // Admin - Deletar evento
   deleteEvento(id: number): Observable<void> {
-    return this.http.delete<void>(`${environment.apiUrl}/admin/${id}`, {
+    return this.http.delete<void>(`${environment.apiUrl}/eventos/admin/${id}`, {
       headers: this.getAuthHeaders()
     });
   }
@@ -113,7 +113,7 @@ export class EventoService {
     const formData = new FormData();
     formData.append('imagem', imagem);
 
-    return this.http.post<string>(`${environment.apiUrl}/admin/upload-image`, formData, {
+    return this.http.post<string>(`${environment.apiUrl}/eventos/admin/upload-image`, formData, {
       headers: this.getAuthHeaders()
     });
   }
