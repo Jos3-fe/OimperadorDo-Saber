@@ -57,7 +57,7 @@ public class AdminController {
 
 
     @PostMapping("/administradores")
-    @PreAuthorize("hasRole('ADMIN')")
+   // @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createAdmin(@Valid @RequestBody AdministradorDTO adminDTO) {
         try {
             Administrador novoAdmin = new Administrador();
@@ -72,6 +72,36 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.CREATED).body(adminSalvo);
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.badRequest().body("Email já está em uso");
+        }
+    }
+
+    // Adicione este método ao seu AdminController
+    @PostMapping("/primeiro-administrador")
+    public ResponseEntity<?> criarPrimeiroAdministrador(@Valid @RequestBody AdministradorDTO adminDTO) {
+        try {
+            // Verifica se já existe algum administrador no banco
+            List<Administrador> adminsExistentes = adminService.findAll();
+
+            if (!adminsExistentes.isEmpty()) {
+                return ResponseEntity.badRequest()
+                        .body(Map.of("erro", "Já existe pelo menos um administrador no sistema"));
+            }
+
+            Administrador novoAdmin = new Administrador();
+            novoAdmin.setNome(adminDTO.getNome());
+            novoAdmin.setEmail(adminDTO.getEmail());
+            novoAdmin.setSenha(adminDTO.getSenha());
+            novoAdmin.setCargo(adminDTO.getCargo());
+            novoAdmin.setRole(Administrador.Role.ADMIN); // Força como ADMIN
+            novoAdmin.setAtivo(true);
+
+            Administrador adminSalvo = adminService.save(novoAdmin);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(Map.of("sucesso", "Primeiro administrador criado com sucesso", "id", adminSalvo.getId()));
+
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("erro", "Email já está em uso"));
         }
     }
 

@@ -18,6 +18,10 @@ public interface AdministradorRepository extends JpaRepository<Administrador, Lo
 
     List<Administrador> findByAtivoTrue();
 
+    // Se você precisa encontrar um administrador pelo nome
+    Optional<Administrador> findByNome(String nome);
+
+
 
     @Query("SELECT a FROM Administrador a WHERE a.email = :email AND a.ativo = true")
     Optional<Administrador> findByEmailAndAtivoTrue(@Param("email") String email);
