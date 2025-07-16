@@ -57,7 +57,7 @@ public class AdminController {
 
 
     @PostMapping("/administradores")
-   // @PreAuthorize("hasRole('ADMIN')")
+   @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createAdmin(@Valid @RequestBody AdministradorDTO adminDTO) {
         try {
             Administrador novoAdmin = new Administrador();
