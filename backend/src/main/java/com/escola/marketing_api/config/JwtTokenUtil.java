@@ -9,6 +9,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenUtil {
@@ -58,17 +60,24 @@ public class JwtTokenUtil {
         return expiration != null ? expiration.before(new Date()) : true;
     }
 
-    // Gera token para o usuário
-    public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
-    }
 
     // Enquanto estiver criando o token:
     // 1. Define claims do token, como Issuer, Expiration, Subject e o ID
     // 2. Assina o JWT com o algoritmo HMAC512 e chave secreta
     // 3. De acordo com JWS Compact Serialization rules
     //    compacta o JWT para uma string
+
+    // Gera token para o usuário
+    public String generateToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+
+        // Adiciona a permissão do usuário como um "claim" (reivindicação) no token
+        claims.put("authorities", userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(",")));
+
+        return createToken(claims, userDetails.getUsername());
+    }
     private String createToken(Map<String, Object> claims, String subject) {
         return JWT.create()
                 .withPayload(claims)
