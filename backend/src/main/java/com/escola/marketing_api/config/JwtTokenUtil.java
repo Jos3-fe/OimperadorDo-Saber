@@ -78,6 +78,7 @@ public class JwtTokenUtil {
 
         return createToken(claims, userDetails.getUsername());
     }
+    
     private String createToken(Map<String, Object> claims, String subject) {
         return JWT.create()
                 .withPayload(claims)
