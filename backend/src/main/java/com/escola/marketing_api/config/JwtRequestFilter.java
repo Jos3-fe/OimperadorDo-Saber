@@ -95,7 +95,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 (request.getMethod().equals(HttpMethod.GET.toString()) && pathMatcher.match("/api/noticias", path)) ||
                 (request.getMethod().equals(HttpMethod.GET.toString()) && pathMatcher.match("/api/direcoes", path)) ||
                 (request.getMethod().equals(HttpMethod.POST.toString()) && pathMatcher.match("/api/contato", path)) ||
-                (request.getMethod().equals(HttpMethod.POST.toString()) && pathMatcher.match("/api/admin/administradores", path)) ||
                 pathMatcher.match("/api/actuator/**", path) ||
                 request.getMethod().equals(HttpMethod.OPTIONS.toString());
     }
